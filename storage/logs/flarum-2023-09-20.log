@@ -1,0 +1,14 @@
+[2023-09-20 11:39:34] flarum.ERROR: Symfony\Component\Console\Exception\CommandNotFoundException: Command "routes" is not defined. in F:\xampp\htdocs\newflarum\vendor\symfony\console\Application.php:720
+Stack trace:
+#0 F:\xampp\htdocs\newflarum\vendor\symfony\console\Application.php(259): Symfony\Component\Console\Application->find('routes')
+#1 F:\xampp\htdocs\newflarum\vendor\symfony\console\Application.php(171): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 F:\xampp\htdocs\newflarum\vendor\flarum\core\src\Console\Server.php(42): Symfony\Component\Console\Application->run()
+#3 F:\xampp\htdocs\newflarum\flarum(24): Flarum\Console\Server->listen()
+#4 {main}  
+[2023-09-20 11:41:26] flarum.ERROR: Symfony\Component\Console\Exception\CommandNotFoundException: Command "routes" is not defined. in F:\xampp\htdocs\newflarum\vendor\symfony\console\Application.php:720
+Stack trace:
+#0 F:\xampp\htdocs\newflarum\vendor\symfony\console\Application.php(259): Symfony\Component\Console\Application->find('routes')
+#1 F:\xampp\htdocs\newflarum\vendor\symfony\console\Application.php(171): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 F:\xampp\htdocs\newflarum\vendor\flarum\core\src\Console\Server.php(42): Symfony\Component\Console\Application->run()
+#3 F:\xampp\htdocs\newflarum\flarum(24): Flarum\Console\Server->listen()
+#4 {main}  
