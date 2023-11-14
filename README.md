@@ -1,40 +1,42 @@
-<p align="center">
-<a href="https://flarum.org/"><img src="https://flarum.org/assets/img/logo.png"></a>
-</p>
+# Customlogin
 
-<p align="center">
-<a href="https://packagist.org/packages/flarum/core"><img src="https://poser.pugx.org/flarum/core/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/flarum/core"><img src="https://poser.pugx.org/flarum/core/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/flarum/core"><img src="https://poser.pugx.org/flarum/core/license.svg" alt="License"></a>
-</p>
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/sidtechno/customlogin.svg)](https://packagist.org/packages/sidtechno/customlogin) [![Total Downloads](https://img.shields.io/packagist/dt/sidtechno/customlogin.svg)](https://packagist.org/packages/sidtechno/customlogin)
 
-## About Flarum
+A [Flarum](http://flarum.org) extension. this is use for customlogin where user email valid or not 
+## Features
 
-**[Flarum](https://flarum.org/) is a delightfully simple discussion platform for your website.** It's fast and easy to use, with all the features you need to run a successful community. It is designed to be:
+- **Sign up with user give some security questions answer**: when User sign up then user give three security question then hi will sign up when user forget password then he will re set his password. 
 
-* **Fast and simple.** No clutter, no bloat, no complex dependencies. Flarum is built with PHP so it’s quick and easy to deploy. The interface is powered by Mithril, a performant JavaScript framework with a tiny footprint.
+## Usage
 
-* **Beautiful and responsive.** This is forum software for humans. Flarum is carefully designed to be consistent and intuitive across platforms, out-of-the-box.
-
-* **Powerful and extensible.** Customize, extend, and integrate Flarum to suit your community. Flarum’s architecture is amazingly flexible, with a powerful Extension API.
-
-![screenshot](https://flarum.org/assets/img/home-screenshot.png)
 
 ## Installation
 
-Read the **[Installation guide](https://docs.flarum.org/install)** to get started. For support, refer to the [documentation](https://docs.flarum.org/), and ask questions on the [community forum](https://discuss.flarum.org/) or [Discord chat](https://flarum.org/discord/).
+Install with composer:
 
-## Contributing
+use this code use in composer 
+ 
+ "repositories": [
+        {
+            "type": "path",
+            "url": "workbench/*"
+        }
+    ]
 
-Thank you for considering contributing to Flarum! Please read the **[Contributing guide](https://docs.flarum.org/contributing)** to learn how you can help.
+```sh
+composer require sidtechno/customlogin:*@dev
+```
 
-This repository only holds the Flarum skeleton application. Most development happens in [flarum/core](https://github.com/flarum/core).
+## Updating
 
-## Security Vulnerabilities
+```sh
+composer update sidtechno/customlogin:"*"
+php flarum migrate
+php flarum cache:clear
+```
 
-If you discover a security vulnerability within Flarum, please follow our [security policy](https://github.com/flarum/core/security/policy) so we can address it promptly.
+## Links
 
-## License
-
-Flarum is open-source software licensed under the [MIT License](https://github.com/flarum/flarum/blob/master/LICENSE).
-
+- [Packagist](https://packagist.org/packages/sidtechno/customlogin)
+- [GitHub](https://github.com/sidtechno/customlogin)
+- [Discuss](https://discuss.flarum.org/d/PUT_DISCUSS_SLUG_HERE)

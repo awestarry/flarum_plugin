@@ -1,61 +1,84 @@
 {
-    "name": "flarum/flarum",
-    "description": "Delightfully simple forum software.",
-    "type": "project",
+    "name": "sidtechno/customlogin",
+    "description": "this is use for customlogin where user email valid or not ",
     "keywords": [
-        "forum",
-        "discussion",
-        "misc",
-        "settings",
-        "flarum",
-        "reflar",
-        "points",
-        "gamification"
+        "flarum"
     ],
-    "homepage": "https://flarum.org/",
+    "type": "flarum-extension",
     "license": "MIT",
+    "require": {
+        "flarum/core": "^1.2.0",
+        "guzzlehttp/guzzle": "^7.8",
+        "tobscure/json-api": "^0.3.0",
+        "laminas/laminas-diactoros": "^2.25"
+    },
     "authors": [
         {
-            "name": "Flarum",
-            "email": "info@flarum.org",
-            "homepage": "https://flarum.org/team"
+            "name": "Sidtechno",
+            "email": "razaque.sidtechno@gmail.com",
+            "role": "Developer"
         }
     ],
-    "support": {
-        "issues": "https://github.com/flarum/core/issues",
-        "source": "https://github.com/flarum/flarum",
-        "docs": "https://docs.flarum.org/"
-    },
-    "require": {
-        "flarum/approval": "*",
-        "flarum/bbcode": "*",
-        "flarum/core": "^1.8",
-        "flarum/emoji": "*",
-        "flarum/flags": "*",
-        "flarum/lang-english": "*",
-        "flarum/likes": "*",
-        "flarum/lock": "*",
-        "flarum/markdown": "*",
-        "flarum/mentions": "*",
-        "flarum/nicknames": "*",
-        "flarum/pusher": "*",
-        "flarum/statistics": "*",
-        "flarum/sticky": "*",
-        "flarum/subscriptions": "*",
-        "flarum/suspend": "*",
-        "flarum/tags": "*",
-        "sidtechno/customlogin": "*@dev",
-        "tobscure/json-api": "^0.3.0"
-    },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "workbench/*"
+    "autoload": {
+        "psr-4": {
+            "Sidtechno\\Customlogin\\": "src/"
         }
-    ]
+    },
 
+    "extra": {
+        "flarum-extension": {
+              "title": "Custom Login",
+            "category": "Authentication",
+            "icon": {
+                "name": "fa fa-user-circle",
+                "color": "rgb(255, 255, 255)",
+                "backgroundColor": "#ff664dad"
+            }
+
+        },
+
+        "flarum-cli": {
+            "modules": {
+                "admin": true,
+                "forum": true,
+                "js": true,
+                "jsCommon": true,
+                "css": true,
+                "locale": true,
+                "gitConf": true,
+                "githubActions": true,
+                "prettier": true,
+                "typescript": false,
+                "bundlewatch": true,
+                "backendTesting": true,
+                "editorConfig": true,
+                "styleci": true
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload-dev": {
+        "psr-4": {
+            "Sidtechno\\Customlogin\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "@test:unit",
+            "@test:integration"
+        ],
+        "test:unit": "phpunit -c tests/phpunit.unit.xml",
+        "test:integration": "phpunit -c tests/phpunit.integration.xml",
+        "test:setup": "@php tests/integration/setup.php"
+    },
+    "scripts-descriptions": {
+        "test": "Runs all tests.",
+        "test:unit": "Runs all unit tests.",
+        "test:integration": "Runs all integration tests.",
+        "test:setup": "Sets up a database for use with integration tests. Execute this only once."
+    },
+    "require-dev": {
+        "flarum/testing": "^1.0.0"
+    }
 }
