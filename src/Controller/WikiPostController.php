@@ -272,20 +272,21 @@ class WikiPostController implements RequestHandlerInterface
         }
         // cheak user have permission or points to create this post
         $check_points = UserPoint::where('user_id', $actor->id)->first();
-        if (!$check_points) {
-            return new JsonResponse([
-                'message' => 'Points Error',
-                'errors' => 'You need at least 100 points to create a wiki post.',
-            ], 422);
+        $permission = CommunityPermission::where('permission', 'creating_wikis_and_wiki_categories')->first();
+
+        // Check if permission exists and if the reputation requirement is not set to 0 or null
+        if ($permission && $permission->reputation_requirement !== 0 && $permission->reputation_requirement !== null) {
+            // If the user doesn't have enough points, return an error
+            if ($check_points->current_point <= $permission->reputation_requirement) {
+                return new JsonResponse([
+                    'message' => 'Points Error',
+                    'errors' => 'You need at least ' . $permission->reputation_requirement . ' points to create a wiki post.',
+                ], 422);
+            }
         }
 
-        $permission = CommunityPermission::where('permission', 'creating_wikis_and_wiki_categories')->first();
-        if ($permission && $check_points->current_point <= $permission->reputation_requirement) {
-            return new JsonResponse([
-                'message' => 'Points Error',
-                'errors' => 'You need at least ' . $permission->reputation_requirement . ' points to create a wiki post.',
-            ], 422);
-        }
+        // Continue with the wiki post creation process
+
         $data['user_id'] = $actor->id;
         $data['slug'] = Str::slug($data['title']);
         $category = WikiCategory::firstOrCreate(['name' => $data['category_id']]);
