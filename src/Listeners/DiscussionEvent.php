@@ -95,15 +95,15 @@ class DiscussionEvent
         // $point->post_id = 3;
         // $point->save();
         // // Handle the post-create scenario here
-        if(isset($event->data['relationships']['tags']['data'])){
-            $this->cheak_articaltag($event,$user);
-        }
-        if(isset($event->discussion['tags'])){
-            if($event->discussion['comment_count'] == 1){
-                $this->cheack_tags($event,$user);
-            }
+        // if(isset($event->data['relationships']['tags']['data'])){
+        //     $this->cheak_articaltag($event,$user);
+        // }
+        // if(isset($event->discussion['tags'])){
+        //     if($event->discussion['comment_count'] == 1){
+        //         $this->cheack_tags($event,$user);
+        //     }
 
-        }
+        // }
 
         if(isset($data['relationships']['bestAnswerUser'])){
             $this->best_answerpost($event->discussion,$data);

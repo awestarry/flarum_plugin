@@ -34,7 +34,7 @@ class UpdatePasswordController implements RequestHandlerInterface
             $user->setPasswordAttribute($data['password']);
             $user->save();
 
-            return new JsonResponse(['message' => true], 200);
+            return new JsonResponse(['message' => true,'data'=>$user], 200);
         } catch (\Exception $e) {
             // Log the error for debugging purposes
             app('log')->error($e);

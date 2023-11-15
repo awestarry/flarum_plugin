@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Sidtechno\Customlogin\Model\Discussions;
 use Sidtechno\Customlogin\Model\Like;
 use Flarum\Tags\Access\DiscussionPolicy;
+use Flarum\Notification\Notification;
 use Flarum\Discussion\Discussion;
 use Flarum\Post\Post;
 use Flarum\Post\CommentPost;
@@ -282,7 +283,7 @@ class DiscussionController implements RequestHandlerInterface
         $post->number = $newPostNumber;
         $post->created_at = Carbon::now();
         $post->save();
-
+        // $this->notification($actor,$post);
         $ch_participant =  Posts::where('discussion_id',  $data['post_id'])->where('user_id', $actor->id)->first();
 
         $discussions = Discussions::where('id',$data['post_id'])->first();
@@ -379,4 +380,16 @@ class DiscussionController implements RequestHandlerInterface
         $comment->delete();
         return new JsonResponse(['message' => true, 'data' => 'Comment deleted successfully.'], 200);
     }
+
+    public function notification($actor,$post){
+
+        $notification = New Notification();
+        $notification->user_id = $post->user_id;
+        $notification->from_user_id = $actor->id;
+        $notification->type = 'postLiked';
+        $notification->subject_id = $post->id;
+        $notification->save();
+
+    }
+
 }

@@ -46,7 +46,7 @@ export async function ForgotPasswordModal() {
 
     const emailInput = document.createElement('input');
     emailInput.setAttribute('type', 'email');
-    emailInput.setAttribute('placeholder', 'Your Email');
+    emailInput.setAttribute('placeholder', 'Enter User Name');
     emailInput.style.width = '70%';
 
     emailInput.style.padding = '10px';
@@ -94,7 +94,7 @@ export async function ForgotPasswordModal() {
             // Handle the response
             if (response) {
                 const data = await response.json();
-               
+
                 if (data.message) {
         cleanup();
 

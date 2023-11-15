@@ -13,7 +13,7 @@ import wiki from './components/wiki';
 import wikipost from './components/wikipost';
 import HeaderPrimary from 'flarum/forum/components/HeaderPrimary';
 import LinkButton from 'flarum/common/components/LinkButton';
-import DiscussionPageList from './components/DiscussionPageList';
+// import DiscussionPageList from './components/DiscussionPageList';
 
 let isFormDisplayed = false;
 let myForm;
@@ -35,7 +35,7 @@ app.routes['sidtechno-customlogin-post'] = {
   component: discussion
 };
   Collect()
-  DiscussionPageList()
+  // DiscussionPageList()
   extend(HeaderPrimary.prototype, 'items', function(items) {
     items.add('wiki', <LinkButton class='wiki-btn' href={app.route('wiki')}>Wiki</LinkButton>);
   });

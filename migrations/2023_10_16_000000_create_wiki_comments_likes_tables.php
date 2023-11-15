@@ -8,6 +8,7 @@ return [
         if ($schema->hasTable('wiki_comment_likes')) {
             return;
         }
+
         $schema->create('wiki_comment_likes', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');

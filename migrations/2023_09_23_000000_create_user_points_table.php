@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
 
+
 return [
     'up' => function (Builder $schema) {
         // Define the changes to the database structure here.

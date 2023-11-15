@@ -4,6 +4,7 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
+
 return [
     'up' => function (Builder $schema) {
         if (!$schema->hasTable('community_permissions')) {

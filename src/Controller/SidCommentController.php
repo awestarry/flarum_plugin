@@ -14,6 +14,7 @@ use Sidtechno\Customlogin\Model\PointRule;
 use Sidtechno\Customlogin\Model\Points;
 use Sidtechno\Customlogin\Model\UserPoint;
 use Sidtechno\Customlogin\Model\WikiReplyCommentLike;
+use Flarum\Notification\Notification;
 
 class SidCommentController implements RequestHandlerInterface
 {
@@ -212,4 +213,6 @@ class SidCommentController implements RequestHandlerInterface
     public function discussionincremnt($id){
         Discussion::where('id', $id)->increment('comment_count');
     }
+
+
 }

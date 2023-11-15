@@ -4,6 +4,7 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;  // This was missing
 use Flarum\Database\AbstractMigration;
 
+
 return [
     'up' => function (Builder $schema) {
         if (!$schema->hasColumn('post_likes', 'reaction_type')) {

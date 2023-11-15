@@ -9,6 +9,7 @@ return [
             return;
         }
 
+
         $schema->create('wiki_replycomment_likes', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id')->unsigned()->index();

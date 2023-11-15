@@ -284,9 +284,6 @@ class WikiPostController implements RequestHandlerInterface
                 ], 422);
             }
         }
-
-        // Continue with the wiki post creation process
-
         $data['user_id'] = $actor->id;
         $data['slug'] = Str::slug($data['title']);
         $category = WikiCategory::firstOrCreate(['name' => $data['category_id']]);

@@ -6,13 +6,29 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\JsonResponse;
+use Flarum\Notification\NotificationSyncer;
+use Flarum\Post\Event\Liking;
 use Sidtechno\Customlogin\Model\Like;
+use Sidtechno\Customlogin\Model\Posts;
+use Flarum\Post\Post;
+use Flarum\User\User;
+use Flarum\Notification\Notification;
 use Sidtechno\Customlogin\Model\UserPoint;
 use Sidtechno\Customlogin\Model\Points;
 use Sidtechno\Customlogin\Model\PointRule;
+use Sidtechno\Customlogin\Notifications\PostLikedNotification;
+
 
 class SidlikeController implements RequestHandlerInterface
 {
+
+    protected $notificationSyncer;
+
+    public function __construct(NotificationSyncer $notificationSyncer)
+    {
+        $this->notificationSyncer = $notificationSyncer;
+    }
+
     /**
      * Handle the request to like/unlike a comment.
      *
@@ -45,6 +61,7 @@ class SidlikeController implements RequestHandlerInterface
                 $message = ($type === 'like') ? 'Comment liked successfully' : 'Comment disliked successfully';
                 if ($type === 'like') {
                     $this->addPoints($actor->id, $commentId);
+
                 } else {
                     $this->subtractPoints($actor->id, $commentId);
                 }
@@ -57,7 +74,20 @@ class SidlikeController implements RequestHandlerInterface
             ]);
             $message = ($type === 'like') ? 'Comment liked successfully' : 'Comment disliked successfully';
             if ($type === 'like') {
+                $post = Post::where('id', $commentId)->first();
+                $liker = User::where('id',$actor->id)->first();
+                if ($post && $post->user) {
+                    $postOwner = $post->user;
+                    $postOwner->notify(new \Sidtechno\Customlogin\Notifications\PostLikedNotification($post, $liker));
+
+                //     $notification = new PostLikedNotification($post, $liker);
+                //     $recipient = $post->user;
+
+                //    $ $this->notificationSyncer->sync($notification, [$recipient]);
+
+                }
                 $this->addPoints($actor->id, $commentId); // Add points when user likes
+                // $this->notification($actor,$commentId);
             }
         }
         return new JsonResponse(['message' => $message, 'status' => true], 200);
@@ -105,6 +135,19 @@ class SidlikeController implements RequestHandlerInterface
 
             $userPoint->decrement('current_point', $pointsRule->score);
         }
+    }
+
+    public function notification($actor,$post){
+        $data = Posts::where('id',$post)->first();
+
+
+        $notification = New Notification();
+        $notification->user_id = $data->user_id;
+        $notification->from_user_id = $actor->id;
+        $notification->type = 'postLiked';
+        $notification->subject_id = $data->discussion_id;
+        $notification->save();
+
     }
 
 }

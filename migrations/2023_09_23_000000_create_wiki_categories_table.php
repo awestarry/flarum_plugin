@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
 
+
 return [
     'up' => function (Builder $schema) {
         if (!$schema->hasTable('wiki_categories')) {

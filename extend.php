@@ -63,6 +63,8 @@ use Sidtechno\Customlogin\Listeners\AvatarChangedEvents;
 use Sidtechno\Customlogin\Listeners\PostLikedListener;
 use Flarum\Post\Event\Deleted;
 use Flarum\Post\Event\Saving;
+use Flarum\Notification\NotificationSyncer;
+use Sidtechno\Customlogin\Notifications\PostLikedNotification;
 use Sidtechno\Customlogin\Controller\WikiController;
 use Sidtechno\Customlogin\Listeners\LikeListener;
 use Flarum\Event\LikeEvent;
@@ -177,8 +179,13 @@ return [
     ->subscribe(AvatarChangedEvents::class)
     ->subscribe(DiscussionEvent::class),
 
+    // (new Extend\Notification())
+    // ->type(PostLikedNotification::class, 'postLiked', ['alert', 'email']),
+
     (new Extend\Event())
     ->listen(Registered::class, Listeners\PostRegisterOperations::class)
+    // ->listen(Posted::class, Listeners\PostCreatedListener::class)
+    // ->listen(Liking::class, Listeners\PostLikedListener::class)
     ->listen(UserSaving::class, Listeners\SidValidationRules::class),
 
 ];

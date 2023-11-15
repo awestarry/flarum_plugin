@@ -9,6 +9,7 @@ return [
             return;
         }
 
+
         $schema->create('wiki_likes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('wiki_articles_id');
