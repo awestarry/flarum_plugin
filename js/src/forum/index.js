@@ -1,25 +1,22 @@
 import app from 'flarum/forum/app';
 import { CustomModalForm } from './components/CustomModalForm';
 import { ForgotPasswordModal } from './components/ForgotPasswordModal';
-import { PointsNavProfile } from './components/PointsNav';
 import swal from 'sweetalert';
 import { ChangPasswordSidBtn } from './components/ChangePassword_sid';
 import { extend } from 'flarum/common/extend';
 import SignUpModal from 'flarum/forum/components/SignUpModal';
 import AddCollection from './components/AddCollection';
 import Collect from './components/Collect';
-import discussion from './components/discussion';
 import wiki from './components/wiki';
 import wikipost from './components/wikipost';
 import HeaderPrimary from 'flarum/forum/components/HeaderPrimary';
 import LinkButton from 'flarum/common/components/LinkButton';
-// import DiscussionPageList from './components/DiscussionPageList';
 
 let isFormDisplayed = false;
 let myForm;
 let loveUpButton;
 
-app.initializers.add('sidtechno/customlogin', () => {
+app.initializers.add('sidtechno-customlogin', () => {
 
   app.routes.wiki = {
     path: '/wiki',
@@ -28,14 +25,8 @@ app.initializers.add('sidtechno/customlogin', () => {
 
 app.routes.wikiPost = {path: '/wiki/post/:slug', component: wikipost};
 
-// app.routes.Post = {path: '/post/:slug', component: discussion};
-app.routes.Post = {path: '/post/:slug', component: discussion};
-app.routes['sidtechno-customlogin-post'] = {
-  path: '/post/:slug/:id?',
-  component: discussion
-};
   Collect()
-  // DiscussionPageList()
+
   extend(HeaderPrimary.prototype, 'items', function(items) {
     items.add('wiki', <LinkButton class='wiki-btn' href={app.route('wiki')}>Wiki</LinkButton>);
   });
@@ -88,7 +79,7 @@ app.routes['sidtechno-customlogin-post'] = {
 
 
   $(document).ready(function () {
-    PointsNavProfile();
+
     ChangPasswordSidBtn()
     // Select the first div inside the body
     let firstDiv = $('body > div:first-child')[0];
@@ -100,7 +91,7 @@ app.routes['sidtechno-customlogin-post'] = {
       for (const mutation of mutationsList) {
         if (mutation.type === 'childList' && $(mutation.target).find('.UserPage').length > 0) {
 
-          PointsNavProfile();
+
           ChangPasswordSidBtn()
           break;
         }

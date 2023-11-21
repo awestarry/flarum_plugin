@@ -1,7 +1,13 @@
 sidtechno-customlogin:
-  # For more details on the format
-  # Checkout https://docs.flarum.org/extend/i18n/#appendix-a-standard-key-format
   admin:
-    my_cool_key: My Cool Key
-
+    permissions:
+      category_create: "Create Wiki Categories"
+      wiki_create: "Create Wikis"
+      wiki_reply: "wiki Reply"
+      wiki_delete: "wiki Delete"
+      wiki_edit: "Wiki Edit"
+      wiki_like: "Wiki Like"
+    my_cool_key: "My Cool Key"
   forum:
+    permission:
+      wiki_reviewImprovements: "Review wiki improvements"

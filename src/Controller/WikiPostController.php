@@ -14,12 +14,13 @@ use Sidtechno\Customlogin\Model\WikiComment;
 use Sidtechno\Customlogin\Model\WikiReplyComment;
 use Sidtechno\Customlogin\Model\WikiCommentLike;
 use Sidtechno\Customlogin\Model\WikiReplyCommentLike;
-use Sidtechno\Customlogin\Model\UserPoint;
-use Sidtechno\Customlogin\Model\CommunityPermission;
-use Sidtechno\Customlogin\Model\Points;
-use Sidtechno\Customlogin\Model\PointRule;
+use Flarum\User\AssertPermissionTrait;
+use Sidtechno\Customlogin\Notifications\ArticleNotificationBlueprint;
+use Flarum\Notification\NotificationSyncer;
+
 class WikiPostController implements RequestHandlerInterface
 {
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $method = $request->getMethod();
@@ -54,10 +55,10 @@ class WikiPostController implements RequestHandlerInterface
 
     public function index($actor)
     {
+
         $category = WikiCategory::with(['post' => function ($query) {
             $query->select('id', 'title', 'slug', 'category_id','user_id');
         }])->get();
-
             foreach ($category as $cat) {
                 foreach ($cat->post as $post) {
                     if (isset($actor->id) && $post->user_id == $actor->id) {
@@ -71,7 +72,7 @@ class WikiPostController implements RequestHandlerInterface
             }
 
 
-        return new JsonResponse(['data' => $category], 200);
+        return new JsonResponse(['data' => $category,'permissions' => $this->permission($actor) ], 200);
     }
 
     public function show($slug, $actor,ServerRequestInterface $request)
@@ -242,6 +243,7 @@ class WikiPostController implements RequestHandlerInterface
         $post->Post_tottal_comment = $Commentco + $WikiReplyComment;
         $data['post'] = $post;
         $data['comment'] = $Comments;
+        $data['permissions'] = $this->permission($actor);
         return new JsonResponse(['data' => $data], 200);
     }
 
@@ -270,22 +272,18 @@ class WikiPostController implements RequestHandlerInterface
                 'errors' => $validator->errors(),
             ], 422);
         }
-        // cheak user have permission or points to create this post
-        $check_points = UserPoint::where('user_id', $actor->id)->first();
-        $permission = CommunityPermission::where('permission', 'creating_wikis_and_wiki_categories')->first();
 
-        // Check if permission exists and if the reputation requirement is not set to 0 or null
-        if ($permission && $permission->reputation_requirement !== 0 && $permission->reputation_requirement !== null) {
-            // If the user doesn't have enough points, return an error
-            if ($check_points->current_point <= $permission->reputation_requirement) {
-                return new JsonResponse([
-                    'message' => 'Points Error',
-                    'errors' => 'You need at least ' . $permission->reputation_requirement . ' points to create a wiki post.',
-                ], 422);
-            }
-        }
         $data['user_id'] = $actor->id;
         $data['slug'] = Str::slug($data['title']);
+
+        $category = WikiCategory::where(['name' => $data['category_id']])->first();
+
+        if (empty($category) && !$actor->can('discussion.category.create')) {
+            return new JsonResponse([
+                'message' => 'Permission',
+                'errors' => 'User does not have permission to create new category',
+            ], 422);
+        }
         $category = WikiCategory::firstOrCreate(['name' => $data['category_id']]);
 
         try {
@@ -293,14 +291,14 @@ class WikiPostController implements RequestHandlerInterface
           $wiki =  WikiPost::create([
                 'title'         => $data['title'],
                 'content'       => $data['content'],
-                // 'slug'          => $data['slug'],
                 'category_id'   =>  $category->id,
-                // 'subcategory_id' => $data['subcategory_id'],
                 'user_id'       => $actor->id
             ]);
-            $wiki->slug = $wiki->id.'-'.$data['slug'];
+            $wiki->slug = $wiki->id . '-' . $data['slug'];
             $wiki->save();
-            $this->addpoints($actor->id,$wiki->id);
+
+
+
 
             return new JsonResponse(['data' => $wiki->toArray()], 201);
         } catch (\Exception $e) {
@@ -337,27 +335,45 @@ class WikiPostController implements RequestHandlerInterface
         return new JsonResponse(['message' => 'Deleted successfully'], 200);
     }
 
-    public function addpoints($id,$post){
-        $points = PointRule::where('condition','created_wiki')->first();
-
-        if($points) {
-            Points::create([
-                'user_id' => $id,
-                'condition' => 'created_wiki',
-                'points' => $points->score,
-                'post_id' => $post,
-                'wiki' => 1,
-                'discussion_id' => $post,
-            ]);
-
-            $user = UserPoint::where('user_id', $id)->first();
-            if (empty($user)) {
-                $user = new UserPoint();
-                $user->user_id = $id;
-                $user->current_point = 0;  // Initialize points to 0
-            }
-            $user->current_point += $points->score; // Increment the points
-            $user->save();
+    public function permission($actor){
+        $user = array();
+        if ($actor->can('discussion.category.create')) {
+           $user['canCategoryCreate']  = true;
+        } else {
+            $user['canCategoryCreate']  = false;
         }
+        if ($actor->can('discussion.wiki.create')) {
+            $user['canCreate']  = true;
+         } else {
+             $user['canCreate']  = false;
+         }
+
+        if ($actor->can('discussion.wiki.like')) {
+            $user['canLike']  = true;
+         } else {
+            $user['canlike']  = false;
+         }
+         if ($actor->can('discussion.wiki.reply')) {
+            $user['canReply']  = true;
+         } else {
+            $user['canReply']  = false;
+         }
+         if ($actor->can('discussion.wiki.delete')) {
+            $user['canDelete']  = true;
+         } else {
+            $user['canDelete']  = false;
+         }
+         if ($actor->can('discussion.wiki.edit')) {
+            $user['canEdit']  = true;
+         } else {
+            $user['canEdit']  = false;
+         }
+         if ($actor->can('discussion.wiki.edit')) {
+            $user['canEdit']  = true;
+         } else {
+            $user['canEdit']  = false;
+         }
+         return $user;
     }
+
 }

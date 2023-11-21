@@ -18,7 +18,6 @@ class QuestionController implements RequestHandlerInterface
         $data =  $parsedBody = $request->getParsedBody();
 
         $validator = app('validator')->make($data, [
-            'user_id' => 'required|exists:users,id',
             'question_1' => 'required',
             'question_2' => 'required',
             'question_3' => 'required',
@@ -33,10 +32,10 @@ class QuestionController implements RequestHandlerInterface
                 'errors' => $validator->errors(),
             ], 422);
         }
-        $questions = SecurityQuestion::where('user_id',$data['user_id'])->delete();
+        $questions = SecurityQuestion::where('user_id',$actor->id)->delete();
         for ($i = 1; $i <= 3; $i++) {
             $question = new SecurityQuestion();
-            $question->user_id = $data['user_id'];
+            $question->user_id = $actor->id;
             $question->question = $data['question_' . $i];
             $question->answer = $data['answer_' . $i];
             $question->save();

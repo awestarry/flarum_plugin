@@ -39,6 +39,8 @@ export default class wiki extends Page {
       .then(response => response.json())
       .then(data => {
         this.data = data.data;
+        this.permission = data.permissions;
+
         let isdata = data.data.filter(val => val.post?.length > 0)
         if (isdata?.length > 0) {
           let first_slug = isdata[0].post[0].slug
@@ -362,7 +364,11 @@ handleSortComment=(type)=>{
 
 
                 {' '}
-                {app.session.user ? (<button class="Button Button--primary" onclick={this.showAddWikiModal.bind(this)}>Add Wiki</button>) : <></>}
+                {app.session.user && this.permission?.canCreate ? (<button class="Button Button--primary" onclick={this.showAddWikiModal.bind(this)}>Add Wiki</button>) : (
+    <button class="Button Button--disabled" disabled>
+        You Can't Add Wiki
+    </button>
+)}
               </div>
 
               <div class="wiki-sideBar">
@@ -402,29 +408,65 @@ handleSortComment=(type)=>{
                         m('span.username', `${this.postData.user?.username}`),
                         app.session.user &&
                         m('span.actions', [
-                          m('div.wiki-postList-header--icon', [
-                            m('i.icon.fas.fa-pencil-alt.Button-icon', { 'aria-hidden': 'true', title: 'Edit', onclick: () => this.onPostEdit() }),
-                            m('i.icon.fas.fa-trash-alt.Button-icon', { 'aria-hidden': 'true', title: 'Delete', onclick: () => this.onPostDelete() }),
-                          ]),
+                          // Edit icon
+                          this.permission?.canEdit && this.postData?.edit ?
+                            m('div.wiki-postList-header--icon', [
+                              m('i.icon.fas.fa-pencil-alt.Button-icon', {
+                                'aria-hidden': 'true',
+                                title: 'Edit',
+                                onclick: () => this.onPostEdit(),
+                                class: app.session.user ? '' : 'disabled-cursor'
+                              }),
+                            ]) : null,
+
+                          // Delete icon
+                          this.permission?.canDelete && this.postData?.delete ?
+                            m('div.wiki-postList-header--icon', [
+                              m('i.icon.fas.fa-trash-alt.Button-icon', {
+                                'aria-hidden': 'true',
+                                title: 'Delete',
+                                onclick: () => this.onPostDelete(),
+                                class: app.session.user ? '' : 'disabled-cursor'
+                              }),
+                            ]) : null,
                         ]),
+
                       ]),
                     ]),
                     m('.wiki-post-body', [
                       m('.wiki-mainPost-container', [
                         m('div.wiki-specific-postList-header--text', m('h3', this.postData.title)),
                         m('.wiki-mainPost--text', m.trust(this.postData.content)),
-                        app.session.user &&
                         m('.wiki-mainPost--tools', [
-                          m('.wiki-mainPost--tools---like', { title: 'Like', onclick: () => this.onPostLike() }, [
-                            m('i.icon.far.fa-thumbs-up.Button-icon', { 'aria-hidden': 'true', class: this.postData.like ? 'like-true' : 'like-false' }),
+                          // Like button
+                          m('.wiki-mainPost--tools---like', {
+                            title: 'Like',
+                            onclick: app.session.user && this.permission?.canLike ?
+                                    () => this.onPostLike() :
+                                    () => {}, // Do nothing if user is not logged in or doesn't have permission
+                            class: app.session.user && this.permission?.canLike ? '' : 'disabled-cursor'
+                          }, [
+                            m('i.icon.far.fa-thumbs-up.Button-icon', {
+                              'aria-hidden': 'true',
+                              class: this.postData.like ? 'like-true' : 'like-false'
+                            }),
                             m('span', this.postData?.totalLike ?? ''),
                           ]),
-                          m('.wiki-mainPost--tools---comment', { title: 'Comment', onclick: () => this.onPostComment() }, [
+
+                          // Comment button
+                          m('.wiki-mainPost--tools---comment', {
+                            title: 'Comment',
+                            onclick: app.session.user && this.permission?.canReply ?
+                                    () => this.onPostComment() :
+                                    () => {}, // Do nothing if user is not logged in or doesn't have permission
+                            class: app.session.user && this.permission?.canReply ? '' : 'disabled-cursor'
+                          }, [
                             m('i.icon.far.fa-comment.Button-icon', { 'aria-hidden': 'true' }),
                             m('span', `${this.commentList?.length}`),
                           ]),
                         ]),
                       ]),
+
                       m('.comment-text-box', [m('p.grey-text', 'Comments'),this.commentList?.length>1&& m(SomeOtherComponent,{slug:this.postData.slug,handleSortComment:this.handleSortComment})]),
                       m(
                         '.wiki-post-commentList',
@@ -458,21 +500,51 @@ handleSortComment=(type)=>{
                               ])
                               ,
                               m('.wiki-mainPost--text', m.trust(v.content)),
-                              app.session.user &&
                               m('.wiki-mainPost--tools', [
-                                m('.wiki-mainPost--tools---like', { title: 'Like', onclick: () => this.onCommentLike(v.id, index, "like") }, [
-                                  m('i.icon.far.fa-thumbs-up.Button-icon', { 'aria-hidden': 'true', class: (v.like && v?.user_reaction === "like") ? 'like-true' : 'like-false' }),
+                                // Like button
+                                m('.wiki-mainPost--tools---like', {
+                                  title: 'Like',
+                                  onclick: app.session.user && this.permission?.canLike ?
+                                          () => this.onCommentLike(v.id, index, "like") :
+                                          () => {}, // Disabled action
+                                  class: app.session.user && this.permission?.canLike ? '' : 'disabled-cursor'
+                                }, [
+                                  m('i.icon.far.fa-thumbs-up.Button-icon', {
+                                    'aria-hidden': 'true',
+                                    class: (v.like && v?.user_reaction === "like") ? 'like-true' : 'like-false'
+                                  }),
                                   m('span', `${v.likes_relation_count ?? '0'}`),
                                 ]),
-                                m('.wiki-mainPost--tools---like', { title: 'Dislike', onclick: () => this.onCommentLike(v.id, index, "dislike") }, [
-                                  m('i.icon.far.fa-thumbs-down.Button-icon', { 'aria-hidden': 'true', class: (v.like && v?.user_reaction === "dislike") ? 'like-true' : 'like-false' }),
+
+                                // Dislike button
+                                m('.wiki-mainPost--tools---like', {
+                                  title: 'Dislike',
+                                  onclick: app.session.user && this.permission?.canLike ?
+                                          () => this.onCommentLike(v.id, index, "dislike") :
+                                          () => {}, // Disabled action
+                                  class: app.session.user && this.permission?.canLike ? '' : 'disabled-cursor'
+                                }, [
+                                  m('i.icon.far.fa-thumbs-down.Button-icon', {
+                                    'aria-hidden': 'true',
+                                    class: (v.like && v?.user_reaction === "dislike") ? 'like-true' : 'like-false'
+                                  }),
                                   m('span', `${v.dislikes_relation_count ?? '0'}`),
                                 ]),
-                                m('.wiki-mainPost--tools---comment', { title: 'Reply', onclick: () => this.onCommentReply(v.id, index) }, [
+
+                                // Comment button
+                                m('.wiki-mainPost--tools---comment', {
+                                  title: 'Reply',
+                                  onclick: app.session.user && this.permission?.canReply ?
+                                          () => this.onCommentReply(v.id, index) :
+                                          () => {}, // Disabled action
+                                  class: app.session.user && this.permission?.canReply ? '' : 'disabled-cursor'
+                                }, [
                                   m('i.icon.far.fa-comment.Button-icon', { 'aria-hidden': 'true' }),
                                   m('span', `${v.replies?.length}`),
                                 ]),
                               ]),
+
+
                               v.replies?.length > 0 &&
                               m('.wiki-comment-replyList', [
                                 m('p.grey-text', 'Reply'),
@@ -491,36 +563,58 @@ handleSortComment=(type)=>{
 
                                   ])
                                   , m('.wiki-comment-reply-box-text', m.trust(repObj.content)),
-                                  app.session.user && m('div.wiki-reply-toolbar', [
-                                    m('.like-dislike-reply-box', [m('i.icon.far.fa-thumbs-up.Button-icon.like-dislike-reply', {
-                                      'aria-hidden': 'true',
-                                      class: (repObj.like && repObj?.user_reaction === "like") ? 'like-true' : 'like-false',
-                                      onclick: () => this.handleReplyLike(repObj.id, index, repIndex, "like")
-                                    }), m("span.like-dislike-reply-count", repObj.likes_relation_count)]),
-                                    m('.like-dislike-reply-box', [m('i.icon.far.fa-thumbs-down.Button-icon.like-dislike-reply', {
-                                      'aria-hidden': 'true',
-                                      class: (repObj.like && repObj?.user_reaction === "dislike") ? 'like-true' : 'like-false',
-                                      onclick: () => this.handleReplyLike(repObj.id, index, repIndex, "dislike")
+                                 m('div.wiki-reply-toolbar', [
+                        // Like button
+                        m('.like-dislike-reply-box', [
+                          m('i.icon.far.fa-thumbs-up.Button-icon.like-dislike-reply', {
+                            'aria-hidden': 'true',
+                            class: `${(repObj.like && repObj?.user_reaction === "like") ? 'like-true' : 'like-false'} ${app.session.user && this.permission?.canLike ? '' : 'disabled-cursor'}`,
+                            onclick: app.session.user && this.permission?.canLike ?
+                                    () => this.handleReplyLike(repObj.id, index, repIndex, "like") :
+                                    () => {} // Do nothing if user is not logged in or doesn't have permission
+                          }),
+                          m("span.like-dislike-reply-count", repObj.likes_relation_count)
+                        ]),
 
-                                    }), m("span.like-dislike-reply-count", repObj.dislikes_relation_count)]),
-                                    (repObj.can_delete || repObj.can_edit) ? m('div.wiki-comment-dropdown', [
-                                      m('span.wiki-comment-dropdown-toggle', {
-                                        'data-toggle': 'dropdown'
-                                      }, [
-                                        m('i.icon.fas.fa-ellipsis-v.Button-icon', {
-                                          'aria-hidden': 'true'
-                                        })
-                                      ]),
-                                      m('div.wiki-comment-dropdown-menu', [
-                                        repObj.can_edit && m('span.wiki-comment-dropdown-item', {
-                                          onclick: () => this.handleReplyEdit(repObj, index, repIndex)
-                                        }, 'Edit'),
-                                        repObj.can_delete && m('span.wiki-comment-dropdown-item', {
-                                          onclick: () => this.handleReplyDelete(repObj.id, index, repIndex)
-                                        }, 'Delete')
-                                      ])
-                                    ]) : ""
-                                  ])
+                        // Dislike button
+                        m('.like-dislike-reply-box', [
+                          m('i.icon.far.fa-thumbs-down.Button-icon.like-dislike-reply', {
+                            'aria-hidden': 'true',
+                           class: `${(repObj.like && repObj?.user_reaction === "like") ? 'like-true' : 'like-false'} ${app.session.user && this.permission?.canLike ? '' : 'disabled-cursor'}`,
+                            onclick: app.session.user && this.permission?.canLike ?
+                                    () => this.handleReplyLike(repObj.id, index, repIndex, "dislike") :
+                                    () => {} // Do nothing if user is not logged in or doesn't have permission
+                          }),
+                          m("span.like-dislike-reply-count", repObj.dislikes_relation_count)
+                        ]),
+
+                        m('div.wiki-comment-dropdown', [
+                          m('span.wiki-comment-dropdown-toggle', { 'data-toggle': 'dropdown' }, [
+                            m('i.icon.fas.fa-ellipsis-v.Button-icon', { 'aria-hidden': 'true' })
+                          ]),
+                          m('div.wiki-comment-dropdown-menu', [
+                            // Edit option
+                            repObj.can_edit ?
+                              m('span.wiki-comment-dropdown-item', {
+                                onclick: app.session.user ?
+                                        () => this.handleReplyEdit(repObj, index, repIndex) :
+                                        () => {}, // Do nothing if user is not logged in
+                                class: app.session.user ? '' : 'disabled-cursor'
+                              }, 'Edit') : null,
+
+                            // Delete option
+                            repObj.can_delete ?
+                              m('span.wiki-comment-dropdown-item', {
+                                onclick: app.session.user ||  repObj.can_delete  ?
+                                        () => this.handleReplyDelete(repObj.id, index, repIndex) :
+                                        () => {}, // Do nothing if user is not logged in
+                                class: app.session.user ||  repObj.can_delete ? '' : 'disabled-cursor'
+                              }, 'Delete') : null
+                          ])
+                        ])
+
+                      ])
+
 
 
                                 ])),
@@ -589,8 +683,7 @@ handleSortComment=(type)=>{
     }).then((data) => {
       this.postData = data?.data?.post;
       this.commentList = data?.data?.comment;
-
-
+      this.permission = data?.data?.permissions;
       m.redraw(); // Ensure Mithril re-renders the view with the fetched data.
     });
   }

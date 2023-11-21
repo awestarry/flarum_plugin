@@ -37,6 +37,6 @@ php flarum cache:clear
 
 ## Links
 
-- [Packagist](https://packagist.org/packages/sidtechno/customlogin)
-- [GitHub](https://github.com/sidtechno/customlogin)
+- [Packagist](https://github.com/awestarry/flarum_plugin)
+- [GitHub](https://github.com/awestarry/flarum_plugin)
 - [Discuss](https://discuss.flarum.org/d/PUT_DISCUSS_SLUG_HERE)

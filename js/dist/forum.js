@@ -8683,104 +8683,6 @@ var AddWikiModal = /*#__PURE__*/function (_Modal) {
 
 /***/ }),
 
-/***/ "./src/forum/components/AllPointsRule_user.js":
-/*!****************************************************!*\
-  !*** ./src/forum/components/AllPointsRule_user.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   AllPointsRule: () => (/* binding */ AllPointsRule)
-/* harmony export */ });
-/* harmony import */ var _PointsUsersTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PointsUsersTable */ "./src/forum/components/PointsUsersTable.js");
-
-function AllPointsRule() {
-  var url = app.forum.attribute('apiUrl');
-  ;
-  $(document).ready(function () {
-    var main_sidtechno_plugin = $('body .App--user');
-
-    // Add the new users points side nav button
-    if (main_sidtechno_plugin) {
-      //<============= get all points ===========>
-      fetch(url + "/permission/all", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (res) {
-        var itemsPerPage = 10; // Number of items to display per page
-        var currentPage = 1; // Current page
-
-        // Function to display data for the current page
-        function displayDataForPage() {
-          var _res$data;
-          var startIndex = (currentPage - 1) * itemsPerPage;
-          var endIndex = startIndex + itemsPerPage;
-          var dataToDisplay = (_res$data = res.data) == null ? void 0 : _res$data.point_rules.slice(startIndex, endIndex);
-          var tableHTML = "\n           <div class='users_points_main'>\n            <button class='Button users_points_main_btn'><b>Points </b> </button>\n            <table class='users_points_table sid_permission_table'>\n            <thead>\n            <tr>\n              <th>Conditions</th>\n              <th>Points</th>\n              <th>Limits</th>\n            </tr>\n          </thead>\n          <tbody>\n            " + dataToDisplay.map(function (item) {
-            return "\n              <tr>\n                <td>" + item.condition.replaceAll("_", " ") + "</td>\n                <td>" + item.score + "</td>\n                <td>" + item.limit + "</td>\n              </tr>\n            ";
-          }).join('') + "\n          </tbody>\n              </table>\n            </div>\n\n            ";
-          $('.UserPage-content').html(tableHTML);
-          updatePaginationControls();
-        }
-        // displayDataForPage()
-        // Function to update pagination controls
-        function updatePaginationControls() {
-          var _res$data2;
-          var paginationControls = document.createElement('div');
-          paginationControls.classList.add('pagination_btn_div');
-          var totalPages = Math.ceil(((_res$data2 = res.data) == null ? void 0 : _res$data2.point_rules.length) / itemsPerPage);
-          function setPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= totalPages) {
-              currentPage = pageNumber;
-              displayDataForPage();
-            }
-          }
-          paginationControls.innerHTML = "\n              <button class=\"Button\" id=\"prevPage\">Previous</button>\n              <button class=\"Button\" id=\"nextPage\">Next</button>\n            ";
-          $('.users_points_main').append(paginationControls);
-          var prevPageButton = document.getElementById('prevPage');
-          var nextPageButton = document.getElementById('nextPage');
-          prevPageButton.addEventListener('click', function () {
-            return setPage(currentPage - 1);
-          });
-          nextPageButton.addEventListener('click', function () {
-            return setPage(currentPage + 1);
-          });
-
-          // <------------   click on points rule btn ---------------->
-
-          $(".users_points_main_btn").click(_PointsUsersTable__WEBPACK_IMPORTED_MODULE_0__.PointsUsersTable);
-
-          // Disable Previous and Next buttons when appropriate
-          if (currentPage === 1) {
-            prevPageButton.disabled = true;
-          } else {
-            prevPageButton.disabled = false;
-          }
-          if (currentPage === totalPages) {
-            nextPageButton.disabled = true;
-          } else {
-            nextPageButton.disabled = false;
-          }
-        }
-        displayDataForPage();
-        console.log(res);
-      })["catch"](function (error) {
-        // Handle errors
-        console.error('API Error:', error);
-        // You can display an error message to the user.
-      });
-    }
-  });
-}
-
-/***/ }),
-
 /***/ "./src/forum/components/AnswerQuestion.js":
 /*!************************************************!*\
   !*** ./src/forum/components/AnswerQuestion.js ***!
@@ -10516,157 +10418,6 @@ var SomeOtherComponent = /*#__PURE__*/function (_Component2) {
 
 /***/ }),
 
-/***/ "./src/forum/components/EditPostModal.js":
-/*!***********************************************!*\
-  !*** ./src/forum/components/EditPostModal.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ EditPostModal)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
-/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _CsrfToken__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CsrfToken */ "./src/forum/components/CsrfToken.js");
-
-
-
-
-
-
-var EditPostModal = /*#__PURE__*/function (_Modal) {
-  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(EditPostModal, _Modal);
-  function EditPostModal(vnode) {
-    var _this;
-    _this = _Modal.call(this, vnode) || this;
-    _this.url = app.forum.attribute('apiUrl');
-    _this.postId = vnode.attrs.postId;
-    return _this;
-  }
-  var _proto = EditPostModal.prototype;
-  _proto.className = function className() {
-    return 'EditWikiModal Modal--small';
-  };
-  _proto.title = function title() {
-    return 'Edit Discussion Content';
-  };
-  _proto.oninit = function oninit(vnode) {
-    var _this2 = this;
-    _Modal.prototype.oninit.call(this, vnode);
-
-    // Fetching post edit data
-    fetch(this.url + "/post/edit/" + this.postId.id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      _this2.postEditData = data.data;
-      m.redraw();
-    });
-  };
-  _proto.handleSubmit = /*#__PURE__*/function () {
-    var _handleSubmit = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
-      var content, formData, csrfToken;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            content = $('.des-create .trix-content')[0].innerHTML;
-            formData = {
-              content: content
-            };
-            if (!content.trim()) {
-              _context.next = 9;
-              break;
-            }
-            _context.next = 5;
-            return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_5__.fetchCsrfToken)();
-          case 5:
-            csrfToken = _context.sent;
-            fetch(this.url + "/post/update/" + this.postId.post_id, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': csrfToken
-              },
-              body: JSON.stringify(formData)
-            }).then(function (response) {
-              return response.json();
-            }).then(function (response) {
-              if (response != null && response.errors) {
-                var err_msg = [];
-                for (var key in response == null ? void 0 : response.errors) {
-                  if (Object.hasOwnProperty.call(response == null ? void 0 : response.errors, key)) {
-                    var element = response == null ? void 0 : response.errors[key];
-                    if (Array.isArray(element)) {
-                      err_msg.push(element.join(','));
-                    }
-                  }
-                }
-                sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("" + err_msg.join(''), '', 'warning');
-              } else {
-                window.location.reload();
-              }
-            })["catch"](function (errors) {
-              // Handling errors
-            });
-            _context.next = 10;
-            break;
-          case 9:
-            sweetalert__WEBPACK_IMPORTED_MODULE_4___default()('Content is required', '', 'warning');
-          case 10:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee, this);
-    }));
-    function handleSubmit(_x) {
-      return _handleSubmit.apply(this, arguments);
-    }
-    return handleSubmit;
-  }();
-  _proto.hide = function hide() {
-    _Modal.prototype.hide.call(this);
-    m.redraw();
-  };
-  _proto.content = function content() {
-    return m("div", {
-      className: "Modal-body"
-    }, m("div", {
-      className: "Form"
-    }, m("div", {
-      "class": "wiki-editor des-create"
-    }, m("label", null, m("span", null, "Description")), m("input", {
-      id: "trix-default-value",
-      type: "hidden",
-      value: this.postId.content
-    }), m("trix-editor", {
-      input: "trix-default-value",
-      "class": "trix-content"
-    })), m("div", {
-      className: "Form-group"
-    }, m("button", {
-      type: "button",
-      onclick: this.handleSubmit.bind(this),
-      className: "Button Button--primary"
-    }, "Update Content"))));
-  };
-  return EditPostModal;
-}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
-
-
-/***/ }),
-
 /***/ "./src/forum/components/EditWikiModal.js":
 /*!***********************************************!*\
   !*** ./src/forum/components/EditWikiModal.js ***!
@@ -11307,186 +11058,6 @@ function _ForgotPasswordModal() {
 
 /***/ }),
 
-/***/ "./src/forum/components/MyEditorModal.js":
-/*!***********************************************!*\
-  !*** ./src/forum/components/MyEditorModal.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ CommentReplyModal)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
-/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _CsrfToken__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CsrfToken */ "./src/forum/components/CsrfToken.js");
-
-
-
-
-
-
-var CommentReplyModal = /*#__PURE__*/function (_Modal) {
-  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(CommentReplyModal, _Modal);
-  function CommentReplyModal(vnode) {
-    var _this;
-    _this = _Modal.call(this, vnode) || this;
-    _this.isLoading = false;
-    // Loading state
-    _this.postId = null;
-    _this.commentId = null;
-    _this.data = [];
-    _this.categoryList = [];
-    _this.sub_categoryList = [];
-    _this.url = app.forum.attribute('apiUrl');
-    _this.handleSubmit = /*#__PURE__*/function () {
-      var _ref = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
-        var post_id, content, editorElement, editor, content3, words, flag, formData, csrfToken;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              post_id = _this.postId;
-              content = $((_this.commentFor ? '.post-comment' : '.comment-reply') + " .trix-content")[0].innerHTML;
-              editorElement = document.querySelector('trix-editor');
-              editor = editorElement.editor;
-              content3 = editor.getDocument().toString();
-              words = content3.split(/\s+/).filter(Boolean).length;
-              flag = true;
-              if (_this.commentFor) {
-                if (words < 100) {
-                  flag = false;
-                  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Minimum 100 words are required", "", "warning");
-                }
-              } else {
-                if (words > 100) {
-                  flag = false;
-                  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Maximum 100 words", "", "warning");
-                }
-              }
-
-              // return false
-              //
-              if (!flag) {
-                _context.next = 20;
-                break;
-              }
-              formData = _this.commentFor ? {
-                post_id: _this.postId,
-                content: content
-              } : {
-                post_id: post_id,
-                content: content,
-                wiki_comment_id: _this.commentId
-              };
-              if (!content.trim()) {
-                _context.next = 19;
-                break;
-              }
-              _this.isLoading = true; // Start loading
-              m.redraw(); // Update the UI
-              _context.next = 15;
-              return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_5__.fetchCsrfToken)();
-            case 15:
-              csrfToken = _context.sent;
-              fetch(app.forum.attribute('apiUrl') + "/" + (_this.commentFor ? 'post' : '/post/reply'), {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-Token': csrfToken
-                },
-                body: JSON.stringify(formData)
-              }).then(function (response) {
-                return response.json();
-              }).then(function (response) {
-                if (response.message) {
-                  if (_this.commentFor) {
-                    _this.updatePostComment(response.data);
-                  } else {
-                    _this.updateCommentReply(response.data);
-                  }
-                  _this.isLoading = false; // Stop loading
-                  m.redraw(); // Update the UI
-                  _this.hide();
-                } else {
-                  _this.isLoading = false; // Stop loading
-                  m.redraw(); // Update the UI
-                  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()(response.error, '', 'warning');
-                }
-
-                // this.updatePostComment()
-              })["catch"](function (errors) {});
-              _context.next = 20;
-              break;
-            case 19:
-              sweetalert__WEBPACK_IMPORTED_MODULE_4___default()('Content is required to fill', '', 'warning');
-            case 20:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }));
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }();
-    _this.postId = vnode.attrs.postId; // Access the postId parameter here
-    _this.commentFor = vnode.attrs.commentFor;
-    _this.commentId = vnode.attrs.commentId;
-    _this.updatePostComment = vnode.attrs.updatePostComment;
-    _this.updateCommentReply = vnode.attrs.updateCommentReply;
-    return _this;
-  }
-  var _proto = CommentReplyModal.prototype;
-  _proto.className = function className() {
-    return 'CommentReplyModal Modal--small';
-  };
-  _proto.title = function title() {
-    return "Add your " + (this.commentFor ? 'comment' : 'reply');
-  };
-  _proto.oninit = function oninit(vnode) {
-    _Modal.prototype.oninit.call(this, vnode);
-
-    // Step 1: API se data fetch karna
-  };
-  _proto.content = function content() {
-    return m("div", {
-      className: "Modal-body"
-    }, m("div", {
-      className: "Form"
-    }, m("div", {
-      "class": ""
-    }, ' ', m("label", {
-      "class": ""
-    }, m("span", null, "Description")), m("div", {
-      "class": "wiki-editor " + (this.commentFor ? 'post-comment' : 'comment-reply')
-    }, m("trix-editor", {
-      "class": "trix-content"
-    }))), m("div", {
-      className: "Form-group"
-    }, this.isLoading ? m("div", {
-      "class": "parent_loader"
-    }, m("div", {
-      "class": "loader"
-    }, "Loading..."), " ") // Add your loader element here
-    : m("button", {
-      type: "button",
-      onclick: this.handleSubmit.bind(this),
-      className: "Button Button--primary"
-    }, "Add"))));
-  };
-  return CommentReplyModal;
-}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
-
-
-/***/ }),
-
 /***/ "./src/forum/components/NewpasswordModal.js":
 /*!**************************************************!*\
   !*** ./src/forum/components/NewpasswordModal.js ***!
@@ -11674,140 +11245,6 @@ function NewPasswordModalForm(user_id) {
   };
 
   // You can perform actions like showing a success message or redirecting the user.
-}
-
-/***/ }),
-
-/***/ "./src/forum/components/PointsNav.js":
-/*!*******************************************!*\
-  !*** ./src/forum/components/PointsNav.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   PointsNavProfile: () => (/* binding */ PointsNavProfile)
-/* harmony export */ });
-/* harmony import */ var _AllPointsRule_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllPointsRule_user */ "./src/forum/components/AllPointsRule_user.js");
-/* harmony import */ var _PointsUsersTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PointsUsersTable */ "./src/forum/components/PointsUsersTable.js");
-
-
-function PointsNavProfile() {
-  $(document).ready(function () {
-    var main_sidtechno_plugin = $('body .App--user');
-    var user_point_nav_btn = $('<li class="item-points profile-nav-points"><a class="hasIcon" href="/muzammil" active=""><i aria-hidden="true" class="icon far fa-star Button-icon"></i><span class="Button-label">Points <span class="Button-badge">0</span></span></a></li>');
-
-    // Add the new users points side nav button
-    if (main_sidtechno_plugin) {
-      if ($('body .App--user .App-content #content .UserPage .container .dropdown-menu .item-points').length === 0) {
-        $('body .App--user .App-content #content .UserPage .container .dropdown-menu .Dropdown-separator').before(user_point_nav_btn);
-      }
-
-      // <======== click on nav in[profiles] points nav btn  to see point   ==================>
-
-      $('.profile-nav-points').click(_PointsUsersTable__WEBPACK_IMPORTED_MODULE_1__.PointsUsersTable);
-    }
-  });
-}
-
-/***/ }),
-
-/***/ "./src/forum/components/PointsUsersTable.js":
-/*!**************************************************!*\
-  !*** ./src/forum/components/PointsUsersTable.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   PointsUsersTable: () => (/* binding */ PointsUsersTable)
-/* harmony export */ });
-/* harmony import */ var _AllPointsRule_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllPointsRule_user */ "./src/forum/components/AllPointsRule_user.js");
-
-function PointsUsersTable(e) {
-  var url = app.forum.attribute('apiUrl');
-  e.preventDefault();
-  $('.UserPage-nav .Dropdown-menu li').removeClass('active');
-  $(this).addClass('active');
-  // Change the URL without page reload
-  // history.pushState(null, null, '/newflarum/public/u/muzammil/points');
-
-  //<============= get all points ===========>
-
-  fetch(url + "/user/point/detail", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }).then(function (response) {
-    return response.json();
-  }).then(function (res) {
-    var itemsPerPage = 10; // Number of items to display per page
-    var currentPage = 1; // Current page
-
-    // Function to display data for the current page
-    function displayDataForPage() {
-      var _res$Total;
-      var startIndex = (currentPage - 1) * itemsPerPage;
-      var endIndex = startIndex + itemsPerPage;
-      var dataToDisplay = res.data.slice(startIndex, endIndex);
-      var tableHTML = "\n         <div class='users_points_main'>\n          <button class='Button users_points_rules_main_btn'><b>Points Rules</b></button>\n          <div class='users-total-points'><span>Total Points : " + (res == null || (_res$Total = res.Total) == null ? void 0 : _res$Total.current_point) + "</span></div>\n          <table class='users_points_table sid_permission_table'>\n              <thead>\n                <tr>\n                  <th>Points Reasons</th>\n                  <th>Points</th>\n\n\n                </tr>\n              </thead>\n              <tbody>\n                " + dataToDisplay.map(function (item) {
-        var _item$condition$repla, _item$condition, _item$points;
-        return "\n                  <tr>\n                    <td>" + ((_item$condition$repla = (_item$condition = item.condition) == null ? void 0 : _item$condition.replaceAll("_", " ")) != null ? _item$condition$repla : "") + "</td>\n                    <td>" + ((_item$points = item.points) != null ? _item$points : "") + "</td>\n\n\n                  </tr>\n                ";
-      }).join('') + "\n              </tbody>\n            </table>\n          </div>\n\n          ";
-      $('.UserPage-content').html(tableHTML);
-      updatePaginationControls();
-    }
-
-    // displayDataForPage()
-    // Function to update pagination controls
-    function updatePaginationControls() {
-      var paginationControls = document.createElement('div');
-      paginationControls.classList.add('pagination_btn_div');
-      var totalPages = Math.ceil(res.data.length / itemsPerPage);
-      function setPage(pageNumber) {
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-          currentPage = pageNumber;
-          displayDataForPage();
-        }
-      }
-      paginationControls.innerHTML = "\n            <button class=\"Button\" id=\"prevPage\">Previous</button>\n            <button class=\"Button\" id=\"nextPage\">Next</button>\n          ";
-      $('.users_points_main').append(paginationControls);
-      var prevPageButton = document.getElementById('prevPage');
-      var nextPageButton = document.getElementById('nextPage');
-      prevPageButton.addEventListener('click', function () {
-        return setPage(currentPage - 1);
-      });
-      nextPageButton.addEventListener('click', function () {
-        return setPage(currentPage + 1);
-      });
-
-      // <------------   click on points rule btn ---------------->
-
-      $(".users_points_rules_main_btn").click(function () {
-        (0,_AllPointsRule_user__WEBPACK_IMPORTED_MODULE_0__.AllPointsRule)();
-      });
-
-      // Disable Previous and Next buttons when appropriate
-      if (currentPage === 1) {
-        prevPageButton.disabled = true;
-      } else {
-        prevPageButton.disabled = false;
-      }
-      if (currentPage === totalPages) {
-        nextPageButton.disabled = true;
-      } else {
-        nextPageButton.disabled = false;
-      }
-    }
-    displayDataForPage();
-  })["catch"](function (error) {
-    // Handle errors
-    console.error('API Error:', error);
-    // You can display an error message to the user.
-  });
 }
 
 /***/ }),
@@ -12003,782 +11440,6 @@ function _ResetPasswordmodal() {
   }));
   return _ResetPasswordmodal.apply(this, arguments);
 }
-
-/***/ }),
-
-/***/ "./src/forum/components/discussion.js":
-/*!********************************************!*\
-  !*** ./src/forum/components/discussion.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ discussion)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_components_Page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/components/Page */ "flarum/components/Page");
-/* harmony import */ var flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Page__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/LinkButton */ "flarum/common/components/LinkButton");
-/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _MyEditorModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MyEditorModal */ "./src/forum/components/MyEditorModal.js");
-/* harmony import */ var _CsrfToken__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./CsrfToken */ "./src/forum/components/CsrfToken.js");
-/* harmony import */ var _EditPostModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./EditPostModal */ "./src/forum/components/EditPostModal.js");
-/* harmony import */ var trix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! trix */ "./node_modules/trix/dist/trix.esm.min.js");
-/* harmony import */ var _DropdownEdit__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./DropdownEdit */ "./src/forum/components/DropdownEdit.js");
-/* harmony import */ var _postreplyedit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./postreplyedit */ "./src/forum/components/postreplyedit.js");
-/* harmony import */ var flarum_components_TextEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! flarum/components/TextEditor */ "flarum/components/TextEditor");
-/* harmony import */ var flarum_components_TextEditor__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(flarum_components_TextEditor__WEBPACK_IMPORTED_MODULE_12__);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var discussion = /*#__PURE__*/function (_Page) {
-  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(discussion, _Page);
-  function discussion() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Page.call.apply(_Page, [this].concat(args)) || this;
-    _this.data = [];
-    _this.categoryList = [];
-    _this.sub_categoryList = [];
-    _this.url = app.forum.attribute('apiUrl');
-    _this.selectedCategoryIndex = 0;
-    //  <----------- post view title functions --------------->
-    _this.onPostDelete = /*#__PURE__*/(0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
-          case 0:
-            sweetalert__WEBPACK_IMPORTED_MODULE_5___default()({
-              title: 'Are you sure, you want to delete?',
-              icon: 'warning',
-              dangerMode: true,
-              buttons: ['Cancel', 'OK']
-            }).then( /*#__PURE__*/function () {
-              var _ref2 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(willDelete) {
-                var _csrfToken;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
-                  while (1) switch (_context.prev = _context.next) {
-                    case 0:
-                      if (!willDelete) {
-                        _context.next = 5;
-                        break;
-                      }
-                      _context.next = 3;
-                      return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
-                    case 3:
-                      _csrfToken = _context.sent;
-                      fetch(app.forum.attribute('apiUrl') + "/post/delete/" + _this.postData.id, {
-                        method: 'DELETE',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'X-CSRF-Token': _csrfToken
-                        }
-                      }).then(function (response) {
-                        return response.json();
-                      }).then(function (response) {
-                        sweetalert__WEBPACK_IMPORTED_MODULE_5___default()('deleted successfully');
-                        var baseUrl = app.forum.attribute('baseUrl');
-                        window.location.href = baseUrl;
-                      });
-                    case 5:
-                    case "end":
-                      return _context.stop();
-                  }
-                }, _callee);
-              }));
-              return function (_x) {
-                return _ref2.apply(this, arguments);
-              };
-            }());
-          case 1:
-          case "end":
-            return _context2.stop();
-        }
-      }, _callee2);
-    }));
-    _this.onCommentLike = function (id, index, user_reaction) {
-      var comment = _this.commentList[index];
-      if (!comment) return; // Exit if comment doesn't exist
-
-      // Handling "like" action
-      if (user_reaction === "like") {
-        switch (comment.user_reaction) {
-          case "like":
-            comment.likes_relation_count -= 1;
-            comment.user_reaction = null;
-            comment.like = false;
-            break;
-          case "dislike":
-            comment.likes_relation_count += 1;
-            comment.dislikes_relation_count -= 1;
-            comment.user_reaction = "like";
-            comment.like = true;
-            break;
-          default:
-            comment.likes_relation_count += 1;
-            comment.user_reaction = "like";
-            comment.like = true;
-        }
-      }
-      // Handling "dislike" action
-      else if (user_reaction === "dislike") {
-        switch (comment.user_reaction) {
-          case "dislike":
-            comment.dislikes_relation_count -= 1;
-            comment.user_reaction = null;
-            comment.like = false;
-            break;
-          case "like":
-            comment.likes_relation_count -= 1;
-            comment.dislikes_relation_count += 1;
-            comment.user_reaction = "dislike";
-            comment.like = true;
-            break;
-          default:
-            comment.dislikes_relation_count += 1;
-            comment.user_reaction = "dislike";
-            comment.like = true;
-        }
-      }
-      fetch(app.forum.attribute('apiUrl') + "/post/like/" + id + "?type=" + user_reaction, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (response) {});
-    };
-    _this.handleCommentDelete = function (id, index) {
-      // console.log(this.commentList.splice(index,1))
-      sweetalert__WEBPACK_IMPORTED_MODULE_5___default()({
-        title: 'Are you sure, you want to delete?',
-        icon: 'warning',
-        dangerMode: true,
-        buttons: ['Cancel', 'OK']
-      }).then( /*#__PURE__*/function () {
-        var _ref3 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3(willDelete) {
-          var copyarr, _csrfToken2;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
-            while (1) switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!willDelete) {
-                  _context3.next = 9;
-                  break;
-                }
-                copyarr = _this.commentList;
-                copyarr.splice(index, 1);
-                _this.categoryList = copyarr;
-                m.redraw();
-                _context3.next = 7;
-                return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
-              case 7:
-                _csrfToken2 = _context3.sent;
-                fetch(app.forum.attribute('apiUrl') + "/post/" + id, {
-                  method: 'DELETE',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': _csrfToken2
-                  }
-                }).then(function (response) {
-                  return response.json();
-                }).then(function (response) {
-                  sweetalert__WEBPACK_IMPORTED_MODULE_5___default()('deleted successfully');
-                  // window.location.reload()
-                });
-              case 9:
-              case "end":
-                return _context3.stop();
-            }
-          }, _callee3);
-        }));
-        return function (_x2) {
-          return _ref3.apply(this, arguments);
-        };
-      }());
-    };
-    // <--------- Post Comment and reply edit  and delete functions ---------------->
-    // <----------------------- handle sort -------------------->
-    _this.handleSortComment = function (type) {
-      fetch(app.forum.attribute('apiUrl') + "/post/" + _this.slug + "?sort=" + type, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (response) {
-        var _response$data, _response$data2;
-        console.log(response);
-        console.log("firssssst", data);
-        _this.postData = response == null || (_response$data = response.data) == null ? void 0 : _response$data.post;
-        _this.commentList = response == null || (_response$data2 = response.data) == null ? void 0 : _response$data2.comment;
-        m.redraw();
-      });
-    };
-    return _this;
-  }
-  var _proto = discussion.prototype;
-  _proto.oninit = function oninit(vnode) {
-    var _this2 = this;
-    _Page.prototype.oninit.call(this, vnode);
-    // <========== post title view ===================>
-    this.postData = null;
-    this.commentList = [];
-    this.isPostLike = false;
-    // <========== post title view ===================>
-
-    // Step 1: API se data fetch karna
-    fetch(app.forum.attribute('apiUrl') + "/post/create", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken
-      },
-      body: JSON.stringify(formData)
-    }).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      _this2.data = data.data;
-      var isdata = data.data.filter(function (val) {
-        return val.post.length > 0;
-      });
-      if (isdata.length > 0) {
-        var first_slug = isdata[0].post[0].slug;
-        _this2.selectedCategoryIndex = first_slug;
-        _this2.handlePostShow(first_slug);
-      }
-      // this.categoryList = data.data.category;
-      m.redraw();
-    });
-  };
-  _proto.onPostEdit = function onPostEdit() {
-    app.modal.show(_EditPostModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      postId: this.postData
-    });
-  };
-  _proto.onPostLike = function onPostLike() {
-    this.postData.like = !this.postData.like;
-    this.postData.likes_count = this.postData.like ? Number(this.postData.likes_count) + 1 : Number(this.postData.likes_count) - 1;
-    fetch(app.forum.attribute('apiUrl') + "/post/like/" + this.postData.post_id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (response) {});
-  };
-  _proto.onPostComment = function onPostComment() {
-    var _this3 = this;
-    console.log("testtt");
-    var updatePostComment = function updatePostComment(newComment) {
-      console.log(_this3.commentList);
-      console.log(newComment);
-      _this3.commentList = [].concat(_this3.commentList, [newComment[0]]);
-    };
-    app.modal.show(_MyEditorModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postId: this.postData.id,
-      commentFor: true,
-      updatePostComment: updatePostComment
-    });
-  };
-  _proto.onCommentReply = function onCommentReply(commentId, index) {
-    var _this4 = this;
-    var updateCommentReply = function updateCommentReply(newReply) {
-      _this4.commentList[index].replies = [].concat(_this4.commentList[index].replies, [newReply]);
-    };
-    app.modal.show(_MyEditorModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postId: this.postData.id,
-      commentFor: false,
-      commentId: commentId,
-      updateCommentReply: updateCommentReply,
-      commentIndex: index
-    });
-  }
-  //  <----------- post view title functions --------------->
-
-  // <--------- Post Comment and reply edit  and delete functions ---------------->
-  ;
-  _proto.handleCommentEdit = function handleCommentEdit(data, index) {
-    var _this5 = this;
-    var updatePostComment = function updatePostComment(newComment) {
-      console.log(newComment);
-      var copyCommentArray = _this5.commentList;
-      copyCommentArray.splice.apply(copyCommentArray, [index, 1].concat(newComment));
-      _this5.commentList = copyCommentArray;
-
-      // this.commentList = [...this.commentList, newComment];
-    };
-
-    app.modal.show(_postreplyedit__WEBPACK_IMPORTED_MODULE_11__["default"], {
-      postId: data,
-      commentFor: true,
-      updatePostComment: updatePostComment
-    });
-  };
-  _proto.handleReplyEdit = function handleReplyEdit(data, index, repIndex) {
-    var _this6 = this;
-    var updateCommentReply = function updateCommentReply(newComment) {
-      var _this6$commentList$in;
-      (_this6$commentList$in = _this6.commentList[index].replies).splice.apply(_this6$commentList$in, [repIndex, 1].concat(newComment));
-    };
-    app.modal.show(_postreplyedit__WEBPACK_IMPORTED_MODULE_11__["default"], {
-      postId: data,
-      commentFor: false,
-      updateCommentReply: updateCommentReply
-    });
-  };
-  _proto.handleReplyDelete = function handleReplyDelete(id, index, repIndex) {
-    var _this7 = this;
-    sweetalert__WEBPACK_IMPORTED_MODULE_5___default()({
-      title: 'Are you sure, you want to delete?',
-      icon: 'warning',
-      dangerMode: true,
-      buttons: ['Cancel', 'OK']
-    }).then( /*#__PURE__*/function () {
-      var _ref4 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4(willDelete) {
-        var _csrfToken3;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              if (!willDelete) {
-                _context4.next = 8;
-                break;
-              }
-              console.log(_this7.commentList[index].replies);
-              _this7.commentList[index].replies.splice(repIndex, 1);
-              m.redraw();
-              _context4.next = 6;
-              return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
-            case 6:
-              _csrfToken3 = _context4.sent;
-              fetch(app.forum.attribute('apiUrl') + "/post/reply/" + id, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-Token': _csrfToken3
-                }
-              }).then(function (response) {
-                return response.json();
-              }).then(function (response) {
-                sweetalert__WEBPACK_IMPORTED_MODULE_5___default()('deleted successfully');
-              });
-            case 8:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4);
-      }));
-      return function (_x3) {
-        return _ref4.apply(this, arguments);
-      };
-    }());
-  };
-  _proto.handleReplyLike = function handleReplyLike(id, index, repIndex, user_reaction) {
-    var comment = this.commentList[index].replies[repIndex];
-    if (!comment) return; // Exit if comment doesn't exist
-
-    // Handling "like" action
-    if (user_reaction === "like") {
-      switch (comment.user_reaction) {
-        case "like":
-          comment.likes_relation_count -= 1;
-          comment.user_reaction = null;
-          comment.like = false;
-          break;
-        case "dislike":
-          comment.likes_relation_count += 1;
-          comment.dislikes_relation_count -= 1;
-          comment.user_reaction = "like";
-          comment.like = true;
-          break;
-        default:
-          comment.likes_relation_count += 1;
-          comment.user_reaction = "like";
-          comment.like = true;
-      }
-    }
-    // Handling "dislike" action
-    else if (user_reaction === "dislike") {
-      switch (comment.user_reaction) {
-        case "dislike":
-          comment.dislikes_relation_count -= 1;
-          comment.user_reaction = null;
-          comment.like = false;
-          break;
-        case "like":
-          comment.likes_relation_count -= 1;
-          comment.dislikes_relation_count += 1;
-          comment.user_reaction = "dislike";
-          comment.like = true;
-          break;
-        default:
-          comment.dislikes_relation_count += 1;
-          comment.user_reaction = "dislike";
-          comment.like = true;
-      }
-    }
-    fetch(app.forum.attribute('apiUrl') + "/post/reply/like/" + id + "?type=" + user_reaction, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (response) {});
-  };
-  // <----------------------- handle sort -------------------->
-  _proto.view = function view() {
-    var _this$postData,
-      _this$postData2,
-      _this8 = this,
-      _this$postData$likes_,
-      _this$postData3;
-    return m("div", {
-      "class": "container wiki"
-    }, m("div", {
-      "class": "wiki-container "
-    }, m("div", {
-      "class": "wiki-right"
-    }, m("div", {
-      "class": "wiki-post-container"
-    }, m("div", {
-      "class": "wiki-postList-body"
-    }, this.postData ? m('.WikiPostPage', [m('div.user-wiki-post', [m('.user_name_main', [(_this$postData = this.postData) != null && (_this$postData = _this$postData.user) != null && _this$postData.avatar_url ? m('img.Avatar', {
-      loading: "lazy",
-      src: "" + ((_this$postData2 = this.postData) == null || (_this$postData2 = _this$postData2.user) == null ? void 0 : _this$postData2.avatar_url),
-      alt: ""
-    }) : m('span.Avatar.wiki-avatar', {
-      loading: 'lazy',
-      style: '--avatar-bg: #e5cca0;'
-    }, "" + this.postData.user.username.slice(0, 1)), m('span.username', "" + this.postData.user.username), app.session.user && m('span.actions', [this.postData.canEdit && m('i.icon.fas.fa-pencil-alt.Button-icon', {
-      'aria-hidden': 'true',
-      title: 'Edit',
-      onclick: function onclick() {
-        return _this8.onPostEdit(_this8.postData);
-      }
-    }), this.postData.canDelete && m('i.icon.fas.fa-trash-alt.Button-icon', {
-      'aria-hidden': 'true',
-      title: 'Delete',
-      onclick: function onclick() {
-        return _this8.onPostDelete(_this8.postData);
-      }
-    })])])]), m('.wiki-post-body', [m('.wiki-mainPost-container', [m('div.wiki-specific-postList-header--text', m('h3', this.postData.title)), m('.wiki-mainPost--text', m.trust(this.postData.content)), app.session.user && m('.wiki-mainPost--tools', [this.postData.canLike && m('.wiki-mainPost--tools---like', {
-      title: 'Like',
-      onclick: function onclick() {
-        return _this8.onPostLike();
-      }
-    }, [m('i.icon.far.fa-thumbs-up.Button-icon', {
-      'aria-hidden': 'true',
-      "class": this.postData.like ? 'like-true' : 'like-false'
-    }), m('span', (_this$postData$likes_ = (_this$postData3 = this.postData) == null ? void 0 : _this$postData3.likes_count) != null ? _this$postData$likes_ : '')]), this.postData.canReply && m('.wiki-mainPost--tools---comment', {
-      title: 'Comment',
-      onclick: function onclick() {
-        return _this8.onPostComment();
-      }
-    }, [m('i.icon.far.fa-comment.Button-icon', {
-      'aria-hidden': 'true'
-    }), m('span', "" + this.commentList.length)])])]), m('.comment-text-box', [m('p.grey-text', 'Comments'), this.commentList.length > 1 && m(_DropdownEdit__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      slug: this.postData.slug,
-      handleSortComment: this.handleSortComment
-    })]), m('.wiki-post-commentList', this.commentList && this.commentList.length ? this.commentList.map(function (v, index) {
-      var _v$user, _v$user2, _v$user$username, _v$user3, _v$likes_relation_cou, _v$dislikes_relation_;
-      return m('.wiki-post-comment-box', [m('.user_name_wiki_comment', [v != null && (_v$user = v.user) != null && _v$user.avatar_url ? m('img.Avatar', {
-        loading: "lazy",
-        src: "" + (v == null || (_v$user2 = v.user) == null ? void 0 : _v$user2.avatar_url),
-        alt: ""
-      }) : m('span.Avatar.wiki-avatar', {
-        loading: "lazy",
-        style: "--avatar-bg: #e5cca0;"
-      }, "" + (v == null || (_v$user$username = v.user.username) == null ? void 0 : _v$user$username.slice(0, 1))), m('span.username', "" + (v == null || (_v$user3 = v.user) == null ? void 0 : _v$user3.username)), app.session.user && (v["delete"] || v.edit) ? m(".wiki-comment-dropdown", [m(".wiki-comment-dropdown-toggle[data-toggle='dropdown']", m("i.fas.fa-ellipsis-v[aria-hidden='true']")), m(".wiki-comment-dropdown-menu", [v.edit && m(".wiki-comment-dropdown-item", {
-        onclick: function onclick() {
-          return _this8.handleCommentEdit(v, index);
-        }
-      }, "Edit"), v["delete"] && m(".wiki-comment-dropdown-item", {
-        onclick: function onclick() {
-          return _this8.handleCommentDelete(v.id, index);
-        }
-      }, "Delete")])]) : ""]), m('.wiki-mainPost--text', m.trust(v.content)), app.session.user && m('.wiki-mainPost--tools', [_this8.postData.canLike && m('.wiki-mainPost--tools---like', {
-        title: 'Like',
-        onclick: function onclick() {
-          return _this8.onCommentLike(v.id, index, "like");
-        }
-      }, [m('i.icon.far.fa-thumbs-up.Button-icon', {
-        'aria-hidden': 'true',
-        "class": v.like && (v == null ? void 0 : v.user_reaction) === "like" ? 'like-true' : 'like-false'
-      }), m('span', "" + ((_v$likes_relation_cou = v.likes_relation_count) != null ? _v$likes_relation_cou : '0'))]), _this8.postData.canLike && m('.wiki-mainPost--tools---like', {
-        title: 'Dislike',
-        onclick: function onclick() {
-          return _this8.onCommentLike(v.id, index, "dislike");
-        }
-      }, [m('i.icon.far.fa-thumbs-down.Button-icon', {
-        'aria-hidden': 'true',
-        "class": v.like && (v == null ? void 0 : v.user_reaction) === "dislike" ? 'like-true' : 'like-false'
-      }), m('span', "" + ((_v$dislikes_relation_ = v.dislikes_relation_count) != null ? _v$dislikes_relation_ : '0'))]), _this8.postData.canReply && m('.wiki-mainPost--tools---comment', {
-        title: 'Reply',
-        onclick: function onclick() {
-          return _this8.onCommentReply(v.id, index);
-        }
-      }, [m('i.icon.far.fa-comment.Button-icon', {
-        'aria-hidden': 'true'
-      }), m('span', "" + v.replies.length)])]), v.replies.length > 0 && m('.wiki-comment-replyList', [m('p.grey-text', 'Reply'), v.replies.length > 0 && v.replies.map(function (repObj, repIndex) {
-        var _repObj$user, _repObj$user2, _repObj$user3;
-        return m('.wiki-comment-reply-box', [m('.user_name_main', [repObj != null && (_repObj$user = repObj.user) != null && _repObj$user.avatar_url ? m('img.Avatar', {
-          loading: "lazy",
-          src: "" + (repObj == null || (_repObj$user2 = repObj.user) == null ? void 0 : _repObj$user2.avatar_url),
-          alt: ""
-        }) : m('span.Avatar', {
-          loading: "lazy",
-          style: "--avatar-bg: #e5cca0;"
-        }, "" + (repObj == null ? void 0 : repObj.user.username.slice(0, 1))), m('span.username', repObj == null || (_repObj$user3 = repObj.user) == null ? void 0 : _repObj$user3.username)]), m('.wiki-comment-reply-box-text', m.trust(repObj.content)), app.session.user && m('div.wiki-reply-toolbar', [_this8.postData.canLike && m('.like-dislike-reply-box', [m('i.icon.far.fa-thumbs-up.Button-icon.like-dislike-reply', {
-          'aria-hidden': 'true',
-          "class": repObj.like && (repObj == null ? void 0 : repObj.user_reaction) === "like" ? 'like-true' : 'like-false',
-          onclick: function onclick() {
-            return _this8.handleReplyLike(repObj.id, index, repIndex, "like");
-          }
-        }), m("span.like-dislike-reply-count", repObj.likes_relation_count)]), _this8.postData.canLike && m('.like-dislike-reply-box', [m('i.icon.far.fa-thumbs-down.Button-icon.like-dislike-reply', {
-          'aria-hidden': 'true',
-          "class": repObj.like && (repObj == null ? void 0 : repObj.user_reaction) === "dislike" ? 'like-true' : 'like-false',
-          onclick: function onclick() {
-            return _this8.handleReplyLike(repObj.id, index, repIndex, "dislike");
-          }
-        }), m("span.like-dislike-reply-count", repObj.dislikes_relation_count)]), repObj.can_delete || repObj.can_edit ? m('div.wiki-comment-dropdown', [m('span.wiki-comment-dropdown-toggle', {
-          'data-toggle': 'dropdown'
-        }, [m('i.icon.fas.fa-ellipsis-v.Button-icon', {
-          'aria-hidden': 'true'
-        })]), m('div.wiki-comment-dropdown-menu', [repObj.can_edit && m('span.wiki-comment-dropdown-item', {
-          onclick: function onclick() {
-            return _this8.handleReplyEdit(repObj, index, repIndex);
-          }
-        }, 'Edit'), repObj.can_delete && m('span.wiki-comment-dropdown-item', {
-          onclick: function onclick() {
-            return _this8.handleReplyDelete(repObj.id, index, repIndex);
-          }
-        }, 'Delete')])]) : ""])]);
-      })])]);
-    }) : '')])]) : m('[', null, m("div", {
-      "class": "parent_loader"
-    }, m("div", {
-      "class": "loader"
-    }, "Loading..."), " ")))))));
-  };
-  _proto.oninit = function oninit(vnode) {
-    var _this9 = this;
-    _Page.prototype.oninit.call(this, vnode);
-    this.slug = m.route.param('slug');
-    this.postData = null;
-    this.discussion_id = null;
-    var urls = app.forum.attribute('apiUrl');
-    m.request({
-      method: 'GET',
-      url: urls + "/post/" + this.slug // adjust this to your actual API endpoint
-    }).then(function (data) {
-      var _data$data, _data$data2, _data$data3;
-      _this9.postData = data == null || (_data$data = data.data) == null ? void 0 : _data$data.post;
-      _this9.commentList = data == null || (_data$data2 = data.data) == null ? void 0 : _data$data2.comment;
-      _this9.discussion_id = data == null || (_data$data3 = data.data) == null || (_data$data3 = _data$data3.post) == null ? void 0 : _data$data3.id;
-      m.redraw(); // Ensure Mithril re-renders the view with the fetched data.
-    });
-  };
-  _proto.showAddWikiModal = function showAddWikiModal() {
-    app.modal.show(_MyEditorModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postId: postId
-    });
-  };
-  return discussion;
-}((flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default()));
-
-
-/***/ }),
-
-/***/ "./src/forum/components/postreplyedit.js":
-/*!***********************************************!*\
-  !*** ./src/forum/components/postreplyedit.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ postreplyedit)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
-/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _CsrfToken__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CsrfToken */ "./src/forum/components/CsrfToken.js");
-
-
-
-
-
-
-var postreplyedit = /*#__PURE__*/function (_Modal) {
-  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(postreplyedit, _Modal);
-  function postreplyedit(vnode) {
-    var _this;
-    _this = _Modal.call(this, vnode) || this;
-    _this.postId = null;
-    _this.commentId = null;
-    _this.data = [];
-    _this.categoryList = [];
-    _this.sub_categoryList = [];
-    _this.url = app.forum.attribute('apiUrl');
-    _this.handleSubmit = /*#__PURE__*/function () {
-      var _ref = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
-        var post_id, content, editorElement, editor, content3, words, flag, formData, csrfToken;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              post_id = _this.postId;
-              content = $((_this.commentFor ? '.post-comment' : '.comment-reply') + " .trix-content")[0].innerHTML;
-              editorElement = document.querySelector('trix-editor');
-              editor = editorElement.editor;
-              content3 = editor.getDocument().toString();
-              words = content3.split(/\s+/).filter(Boolean).length;
-              flag = true;
-              if (_this.commentFor) {
-                if (words < 100) {
-                  flag = false;
-                  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Minimum 100 words are required", "", "warning");
-                }
-              } else {
-                if (words > 100) {
-                  flag = false;
-                  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Maximum 100 words", "", "warning");
-                }
-              }
-
-              // return false
-              //
-              if (!flag) {
-                _context.next = 18;
-                break;
-              }
-              formData = _this.commentFor ? {
-                content: content
-              } : {
-                content: content,
-                wiki_comment_id: _this.commentId
-              };
-              if (!content.trim()) {
-                _context.next = 17;
-                break;
-              }
-              _context.next = 13;
-              return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_5__.fetchCsrfToken)();
-            case 13:
-              csrfToken = _context.sent;
-              fetch(app.forum.attribute('apiUrl') + "/" + (_this.commentFor ? "post/" + _this.postId.id : "/post/reply/" + _this.postId.id), {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-Token': csrfToken
-                },
-                body: JSON.stringify(formData)
-              }).then(function (response) {
-                return response.json();
-              }).then(function (response) {
-                if (response.message) {
-                  if (_this.commentFor) {
-                    _this.updatePostComment(response.data);
-                  } else {
-                    _this.updateCommentReply(response.data);
-                  }
-                  _this.hide();
-                } else {
-                  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()(response.error, '', 'warning');
-                }
-
-                // this.updatePostComment()
-              })["catch"](function (errors) {});
-              _context.next = 18;
-              break;
-            case 17:
-              sweetalert__WEBPACK_IMPORTED_MODULE_4___default()('Content is required to fill', '', 'warning');
-            case 18:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }));
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }();
-    _this.postId = vnode.attrs.postId; // Access the postId parameter here
-    _this.commentFor = vnode.attrs.commentFor;
-    _this.commentId = vnode.attrs.commentId;
-    _this.updatePostComment = vnode.attrs.updatePostComment;
-    _this.updateCommentReply = vnode.attrs.updateCommentReply;
-    return _this;
-  }
-  var _proto = postreplyedit.prototype;
-  _proto.className = function className() {
-    return 'CommentReplyModal Modal--small';
-  };
-  _proto.title = function title() {
-    return "Edit your " + (this.commentFor ? 'comment' : 'reply');
-  };
-  _proto.oninit = function oninit(vnode) {
-    _Modal.prototype.oninit.call(this, vnode);
-
-    // Step 1: API se data fetch karna
-  };
-  _proto.content = function content() {
-    return m("div", {
-      className: "Modal-body"
-    }, m("div", {
-      className: "Form"
-    }, m("div", {
-      "class": ""
-    }, ' ', m("label", {
-      "class": ""
-    }, m("span", null, "Description")), m("div", {
-      "class": "wiki-editor " + (this.commentFor ? 'post-comment' : 'comment-reply')
-    }, m("input", {
-      id: "trix-default-value",
-      type: "hidden",
-      value: this.postId.content
-    }), m("trix-editor", {
-      input: "trix-default-value",
-      "class": "trix-content"
-    }))), m("div", {
-      className: "Form-group"
-    }, m("button", {
-      type: "button",
-      onclick: this.handleSubmit.bind(this),
-      className: "Button Button--primary"
-    }, "Add"))));
-  };
-  return postreplyedit;
-}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
-
 
 /***/ }),
 
@@ -13034,6 +11695,7 @@ var wiki = /*#__PURE__*/function (_Page) {
       return response.json();
     }).then(function (data) {
       _this2.data = data.data;
+      _this2.permission = data.permissions;
       var isdata = data.data.filter(function (val) {
         var _val$post;
         return ((_val$post = val.post) == null ? void 0 : _val$post.length) > 0;
@@ -13227,13 +11889,22 @@ var wiki = /*#__PURE__*/function (_Page) {
   // i am cheked ctrl f5
   // <----------------------- handle sort -------------------->
   _proto.view = function view() {
-    var _this8 = this,
+    var _this$permission,
+      _this8 = this,
       _this$postData,
       _this$postData2,
       _this$postData$user,
       _this$postData$user2,
-      _this$postData$totalL,
+      _this$permission2,
       _this$postData3,
+      _this$permission3,
+      _this$postData4,
+      _this$permission4,
+      _this$permission5,
+      _this$postData$totalL,
+      _this$postData5,
+      _this$permission6,
+      _this$permission7,
       _this$commentList,
       _this$commentList2,
       _this$commentList3;
@@ -13251,10 +11922,13 @@ var wiki = /*#__PURE__*/function (_Page) {
       "class": "wiki-toolbar"
     }, m("div", {
       "class": "wiki-add-btn"
-    }, ' ', app.session.user ? m("button", {
+    }, ' ', app.session.user && (_this$permission = this.permission) != null && _this$permission.canCreate ? m("button", {
       "class": "Button Button--primary",
       onclick: this.showAddWikiModal.bind(this)
-    }, "Add Wiki") : m('[', null)), m("div", {
+    }, "Add Wiki") : m("button", {
+      "class": "Button Button--disabled",
+      disabled: true
+    }, "You Can't Add Wiki")), m("div", {
       "class": "wiki-sideBar"
     }, this.data.map(function (val, index) {
       return m("div", {
@@ -13274,6 +11948,650 @@ var wiki = /*#__PURE__*/function (_Page) {
         }, cat_title.title);
       })));
     })))), m("div", {
+      "class": "wiki-right"
+    }, m("div", {
+      "class": "wiki-post-container"
+    }, m("div", {
+      "class": "wiki-postList-body"
+    }, this.postData ? m('.WikiPostPage', [m('div.user-wiki-post', [m('.user_name_main', [(_this$postData = this.postData) != null && (_this$postData = _this$postData.user) != null && _this$postData.avatar_url ? m('img.Avatar', {
+      loading: "lazy",
+      src: "" + ((_this$postData2 = this.postData) == null || (_this$postData2 = _this$postData2.user) == null ? void 0 : _this$postData2.avatar_url),
+      alt: ""
+    }) : m('span.Avatar.wiki-avatar', {
+      loading: 'lazy',
+      style: '--avatar-bg: #e5cca0;'
+    }, "" + ((_this$postData$user = this.postData.user) == null ? void 0 : _this$postData$user.username.slice(0, 1))), m('span.username', "" + ((_this$postData$user2 = this.postData.user) == null ? void 0 : _this$postData$user2.username)), app.session.user && m('span.actions', [
+    // Edit icon
+    (_this$permission2 = this.permission) != null && _this$permission2.canEdit && (_this$postData3 = this.postData) != null && _this$postData3.edit ? m('div.wiki-postList-header--icon', [m('i.icon.fas.fa-pencil-alt.Button-icon', {
+      'aria-hidden': 'true',
+      title: 'Edit',
+      onclick: function onclick() {
+        return _this8.onPostEdit();
+      },
+      "class": app.session.user ? '' : 'disabled-cursor'
+    })]) : null,
+    // Delete icon
+    (_this$permission3 = this.permission) != null && _this$permission3.canDelete && (_this$postData4 = this.postData) != null && _this$postData4["delete"] ? m('div.wiki-postList-header--icon', [m('i.icon.fas.fa-trash-alt.Button-icon', {
+      'aria-hidden': 'true',
+      title: 'Delete',
+      onclick: function onclick() {
+        return _this8.onPostDelete();
+      },
+      "class": app.session.user ? '' : 'disabled-cursor'
+    })]) : null])])]), m('.wiki-post-body', [m('.wiki-mainPost-container', [m('div.wiki-specific-postList-header--text', m('h3', this.postData.title)), m('.wiki-mainPost--text', m.trust(this.postData.content)), m('.wiki-mainPost--tools', [
+    // Like button
+    m('.wiki-mainPost--tools---like', {
+      title: 'Like',
+      onclick: app.session.user && (_this$permission4 = this.permission) != null && _this$permission4.canLike ? function () {
+        return _this8.onPostLike();
+      } : function () {},
+      // Do nothing if user is not logged in or doesn't have permission
+      "class": app.session.user && (_this$permission5 = this.permission) != null && _this$permission5.canLike ? '' : 'disabled-cursor'
+    }, [m('i.icon.far.fa-thumbs-up.Button-icon', {
+      'aria-hidden': 'true',
+      "class": this.postData.like ? 'like-true' : 'like-false'
+    }), m('span', (_this$postData$totalL = (_this$postData5 = this.postData) == null ? void 0 : _this$postData5.totalLike) != null ? _this$postData$totalL : '')]),
+    // Comment button
+    m('.wiki-mainPost--tools---comment', {
+      title: 'Comment',
+      onclick: app.session.user && (_this$permission6 = this.permission) != null && _this$permission6.canReply ? function () {
+        return _this8.onPostComment();
+      } : function () {},
+      // Do nothing if user is not logged in or doesn't have permission
+      "class": app.session.user && (_this$permission7 = this.permission) != null && _this$permission7.canReply ? '' : 'disabled-cursor'
+    }, [m('i.icon.far.fa-comment.Button-icon', {
+      'aria-hidden': 'true'
+    }), m('span', "" + ((_this$commentList = this.commentList) == null ? void 0 : _this$commentList.length))])])]), m('.comment-text-box', [m('p.grey-text', 'Comments'), ((_this$commentList2 = this.commentList) == null ? void 0 : _this$commentList2.length) > 1 && m(_DropdownEdit__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      slug: this.postData.slug,
+      handleSortComment: this.handleSortComment
+    })]), m('.wiki-post-commentList', this.commentList && (_this$commentList3 = this.commentList) != null && _this$commentList3.length ? this.commentList.map(function (v, index) {
+      var _v$user, _v$user2, _v$user3, _v$user4, _this8$permission, _this8$permission2, _v$likes_relation_cou, _this8$permission3, _this8$permission4, _v$dislikes_relation_, _this8$permission5, _this8$permission6, _v$replies, _v$replies2, _v$replies3;
+      return m('.wiki-post-comment-box', [m('.user_name_wiki_comment', [v != null && (_v$user = v.user) != null && _v$user.avatar_url ? m('img.Avatar', {
+        loading: "lazy",
+        src: "" + (v == null || (_v$user2 = v.user) == null ? void 0 : _v$user2.avatar_url),
+        alt: ""
+      }) : m('span.Avatar.wiki-avatar', {
+        loading: "lazy",
+        style: "--avatar-bg: #e5cca0;"
+      }, "" + (v == null || (_v$user3 = v.user) == null ? void 0 : _v$user3.username.slice(0, 1))), m('span.username', "" + (v == null || (_v$user4 = v.user) == null ? void 0 : _v$user4.username)), app.session.user && (v["delete"] || v.edit) ? m(".wiki-comment-dropdown", [m(".wiki-comment-dropdown-toggle[data-toggle='dropdown']", m("i.fas.fa-ellipsis-v[aria-hidden='true']")), m(".wiki-comment-dropdown-menu", [v.edit && m(".wiki-comment-dropdown-item", {
+        onclick: function onclick() {
+          return _this8.handleCommentEdit(v, index);
+        }
+      }, "Edit"), v["delete"] && m(".wiki-comment-dropdown-item", {
+        onclick: function onclick() {
+          return _this8.handleCommentDelete(v.id, index);
+        }
+      }, "Delete")])]) : ""]), m('.wiki-mainPost--text', m.trust(v.content)), m('.wiki-mainPost--tools', [
+      // Like button
+      m('.wiki-mainPost--tools---like', {
+        title: 'Like',
+        onclick: app.session.user && (_this8$permission = _this8.permission) != null && _this8$permission.canLike ? function () {
+          return _this8.onCommentLike(v.id, index, "like");
+        } : function () {},
+        // Disabled action
+        "class": app.session.user && (_this8$permission2 = _this8.permission) != null && _this8$permission2.canLike ? '' : 'disabled-cursor'
+      }, [m('i.icon.far.fa-thumbs-up.Button-icon', {
+        'aria-hidden': 'true',
+        "class": v.like && (v == null ? void 0 : v.user_reaction) === "like" ? 'like-true' : 'like-false'
+      }), m('span', "" + ((_v$likes_relation_cou = v.likes_relation_count) != null ? _v$likes_relation_cou : '0'))]),
+      // Dislike button
+      m('.wiki-mainPost--tools---like', {
+        title: 'Dislike',
+        onclick: app.session.user && (_this8$permission3 = _this8.permission) != null && _this8$permission3.canLike ? function () {
+          return _this8.onCommentLike(v.id, index, "dislike");
+        } : function () {},
+        // Disabled action
+        "class": app.session.user && (_this8$permission4 = _this8.permission) != null && _this8$permission4.canLike ? '' : 'disabled-cursor'
+      }, [m('i.icon.far.fa-thumbs-down.Button-icon', {
+        'aria-hidden': 'true',
+        "class": v.like && (v == null ? void 0 : v.user_reaction) === "dislike" ? 'like-true' : 'like-false'
+      }), m('span', "" + ((_v$dislikes_relation_ = v.dislikes_relation_count) != null ? _v$dislikes_relation_ : '0'))]),
+      // Comment button
+      m('.wiki-mainPost--tools---comment', {
+        title: 'Reply',
+        onclick: app.session.user && (_this8$permission5 = _this8.permission) != null && _this8$permission5.canReply ? function () {
+          return _this8.onCommentReply(v.id, index);
+        } : function () {},
+        // Disabled action
+        "class": app.session.user && (_this8$permission6 = _this8.permission) != null && _this8$permission6.canReply ? '' : 'disabled-cursor'
+      }, [m('i.icon.far.fa-comment.Button-icon', {
+        'aria-hidden': 'true'
+      }), m('span', "" + ((_v$replies = v.replies) == null ? void 0 : _v$replies.length))])]), ((_v$replies2 = v.replies) == null ? void 0 : _v$replies2.length) > 0 && m('.wiki-comment-replyList', [m('p.grey-text', 'Reply'), ((_v$replies3 = v.replies) == null ? void 0 : _v$replies3.length) > 0 && v.replies.map(function (repObj, repIndex) {
+        var _repObj$user, _repObj$user2, _repObj$user3, _this8$permission7, _this8$permission8, _this8$permission9, _this8$permission10;
+        return m('.wiki-comment-reply-box', [m('.user_name_main', [repObj != null && (_repObj$user = repObj.user) != null && _repObj$user.avatar_url ? m('img.Avatar', {
+          loading: "lazy",
+          src: "" + (repObj == null || (_repObj$user2 = repObj.user) == null ? void 0 : _repObj$user2.avatar_url),
+          alt: ""
+        }) : m('span.Avatar', {
+          loading: "lazy",
+          style: "--avatar-bg: #e5cca0;"
+        }, "" + (repObj == null ? void 0 : repObj.user.username.slice(0, 1))), m('span.username', repObj == null || (_repObj$user3 = repObj.user) == null ? void 0 : _repObj$user3.username)]), m('.wiki-comment-reply-box-text', m.trust(repObj.content)), m('div.wiki-reply-toolbar', [
+        // Like button
+        m('.like-dislike-reply-box', [m('i.icon.far.fa-thumbs-up.Button-icon.like-dislike-reply', {
+          'aria-hidden': 'true',
+          "class": (repObj.like && (repObj == null ? void 0 : repObj.user_reaction) === "like" ? 'like-true' : 'like-false') + " " + (app.session.user && (_this8$permission7 = _this8.permission) != null && _this8$permission7.canLike ? '' : 'disabled-cursor'),
+          onclick: app.session.user && (_this8$permission8 = _this8.permission) != null && _this8$permission8.canLike ? function () {
+            return _this8.handleReplyLike(repObj.id, index, repIndex, "like");
+          } : function () {} // Do nothing if user is not logged in or doesn't have permission
+        }), m("span.like-dislike-reply-count", repObj.likes_relation_count)]),
+        // Dislike button
+        m('.like-dislike-reply-box', [m('i.icon.far.fa-thumbs-down.Button-icon.like-dislike-reply', {
+          'aria-hidden': 'true',
+          "class": (repObj.like && (repObj == null ? void 0 : repObj.user_reaction) === "like" ? 'like-true' : 'like-false') + " " + (app.session.user && (_this8$permission9 = _this8.permission) != null && _this8$permission9.canLike ? '' : 'disabled-cursor'),
+          onclick: app.session.user && (_this8$permission10 = _this8.permission) != null && _this8$permission10.canLike ? function () {
+            return _this8.handleReplyLike(repObj.id, index, repIndex, "dislike");
+          } : function () {} // Do nothing if user is not logged in or doesn't have permission
+        }), m("span.like-dislike-reply-count", repObj.dislikes_relation_count)]), m('div.wiki-comment-dropdown', [m('span.wiki-comment-dropdown-toggle', {
+          'data-toggle': 'dropdown'
+        }, [m('i.icon.fas.fa-ellipsis-v.Button-icon', {
+          'aria-hidden': 'true'
+        })]), m('div.wiki-comment-dropdown-menu', [
+        // Edit option
+        repObj.can_edit ? m('span.wiki-comment-dropdown-item', {
+          onclick: app.session.user ? function () {
+            return _this8.handleReplyEdit(repObj, index, repIndex);
+          } : function () {},
+          // Do nothing if user is not logged in
+          "class": app.session.user ? '' : 'disabled-cursor'
+        }, 'Edit') : null,
+        // Delete option
+        repObj.can_delete ? m('span.wiki-comment-dropdown-item', {
+          onclick: app.session.user || repObj.can_delete ? function () {
+            return _this8.handleReplyDelete(repObj.id, index, repIndex);
+          } : function () {},
+          // Do nothing if user is not logged in
+          "class": app.session.user || repObj.can_delete ? '' : 'disabled-cursor'
+        }, 'Delete') : null])])])]);
+      })])]);
+    }) : '')])]) : m('[', null, m("center", null, "Click on the title in left sidebar to preview")))))));
+  };
+  _proto.handlePostShow = function handlePostShow(slug) {
+    var _this9 = this;
+    this.selectedCategoryIndex = slug;
+    m.request({
+      method: 'GET',
+      url: app.forum.attribute('apiUrl') + "/wiki/post/" + slug // adjust this to your actual API endpoint
+    }).then(function (data) {
+      var _data$data, _data$data2, _data$data3;
+      _this9.postData = data == null || (_data$data = data.data) == null ? void 0 : _data$data.post;
+      _this9.commentList = data == null || (_data$data2 = data.data) == null ? void 0 : _data$data2.comment;
+      _this9.permission = data == null || (_data$data3 = data.data) == null ? void 0 : _data$data3.permissions;
+      m.redraw(); // Ensure Mithril re-renders the view with the fetched data.
+    });
+  };
+  _proto.showAddWikiModal = function showAddWikiModal() {
+    app.modal.show(_AddWikiModal__WEBPACK_IMPORTED_MODULE_9__["default"]);
+  };
+  return wiki;
+}((flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/wikipost.js":
+/*!******************************************!*\
+  !*** ./src/forum/components/wikipost.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ wikipost)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_components_Page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/components/Page */ "flarum/components/Page");
+/* harmony import */ var flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Page__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/LinkButton */ "flarum/common/components/LinkButton");
+/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _CommentReplyModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CommentReplyModal */ "./src/forum/components/CommentReplyModal.js");
+/* harmony import */ var _CsrfToken__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./CsrfToken */ "./src/forum/components/CsrfToken.js");
+/* harmony import */ var _EditWikiModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./EditWikiModal */ "./src/forum/components/EditWikiModal.js");
+/* harmony import */ var _AddWikiModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./AddWikiModal */ "./src/forum/components/AddWikiModal.js");
+/* harmony import */ var trix__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! trix */ "./node_modules/trix/dist/trix.esm.min.js");
+/* harmony import */ var _DropdownEdit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./DropdownEdit */ "./src/forum/components/DropdownEdit.js");
+/* harmony import */ var _CommentReplyEditModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./CommentReplyEditModal */ "./src/forum/components/CommentReplyEditModal.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var wikipost = /*#__PURE__*/function (_Page) {
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(wikipost, _Page);
+  function wikipost() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Page.call.apply(_Page, [this].concat(args)) || this;
+    _this.data = [];
+    _this.categoryList = [];
+    _this.url = app.forum.attribute('apiUrl');
+    _this.selectedCategoryIndex = 0;
+    _this.isLoading = false;
+    //  <----------- post view title functions --------------->
+    _this.onPostDelete = /*#__PURE__*/(0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            sweetalert__WEBPACK_IMPORTED_MODULE_5___default()({
+              title: 'Are you sure, you want to delete?',
+              icon: 'warning',
+              dangerMode: true,
+              buttons: ['Cancel', 'OK']
+            }).then( /*#__PURE__*/function () {
+              var _ref2 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(willDelete) {
+                var csrfToken;
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
+                  while (1) switch (_context.prev = _context.next) {
+                    case 0:
+                      if (!willDelete) {
+                        _context.next = 5;
+                        break;
+                      }
+                      _context.next = 3;
+                      return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
+                    case 3:
+                      csrfToken = _context.sent;
+                      fetch(app.forum.attribute('apiUrl') + "/wiki/post/" + _this.postData.id, {
+                        method: 'DELETE',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-Token': csrfToken
+                        }
+                      }).then(function (response) {
+                        return response.json();
+                      }).then(function (response) {
+                        sweetalert__WEBPACK_IMPORTED_MODULE_5___default()('deleted successfully');
+                        window.location.reload();
+                      });
+                    case 5:
+                    case "end":
+                      return _context.stop();
+                  }
+                }, _callee);
+              }));
+              return function (_x) {
+                return _ref2.apply(this, arguments);
+              };
+            }());
+          case 1:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2);
+    }));
+    _this.onCommentLike = function (id, index, user_reaction) {
+      var comment = _this.commentList[index];
+      if (!comment) return; // Exit if comment doesn't exist
+
+      // Handling "like" action
+      if (user_reaction === "like") {
+        switch (comment.user_reaction) {
+          case "like":
+            comment.likes_relation_count -= 1;
+            comment.user_reaction = null;
+            comment.like = false;
+            break;
+          case "dislike":
+            comment.likes_relation_count += 1;
+            comment.dislikes_relation_count -= 1;
+            comment.user_reaction = "like";
+            comment.like = true;
+            break;
+          default:
+            comment.likes_relation_count += 1;
+            comment.user_reaction = "like";
+            comment.like = true;
+        }
+      }
+      // Handling "dislike" action
+      else if (user_reaction === "dislike") {
+        switch (comment.user_reaction) {
+          case "dislike":
+            comment.dislikes_relation_count -= 1;
+            comment.user_reaction = null;
+            comment.like = false;
+            break;
+          case "like":
+            comment.likes_relation_count -= 1;
+            comment.dislikes_relation_count += 1;
+            comment.user_reaction = "dislike";
+            comment.like = true;
+            break;
+          default:
+            comment.dislikes_relation_count += 1;
+            comment.user_reaction = "dislike";
+            comment.like = true;
+        }
+      }
+      fetch(app.forum.attribute('apiUrl') + "/wiki/comment/like/" + id + "?type=" + user_reaction, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (response) {});
+    };
+    _this.handleCommentDelete = function (id, index) {
+      // console.log(this.commentList.splice(index,1))
+      sweetalert__WEBPACK_IMPORTED_MODULE_5___default()({
+        title: 'Are you sure, you want to delete?',
+        icon: 'warning',
+        dangerMode: true,
+        buttons: ['Cancel', 'OK']
+      }).then( /*#__PURE__*/function () {
+        var _ref3 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3(willDelete) {
+          var copyarr, csrfToken;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
+            while (1) switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!willDelete) {
+                  _context3.next = 9;
+                  break;
+                }
+                copyarr = _this.commentList;
+                copyarr.splice(index, 1);
+                _this.categoryList = copyarr;
+                m.redraw();
+                _context3.next = 7;
+                return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
+              case 7:
+                csrfToken = _context3.sent;
+                fetch(app.forum.attribute('apiUrl') + "/wikicomment/" + id, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                  }
+                }).then(function (response) {
+                  return response.json();
+                }).then(function (response) {
+                  sweetalert__WEBPACK_IMPORTED_MODULE_5___default()('deleted successfully');
+                  // window.location.reload()
+                });
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }, _callee3);
+        }));
+        return function (_x2) {
+          return _ref3.apply(this, arguments);
+        };
+      }());
+    };
+    // <--------- Post Comment and reply edit  and delete functions ---------------->
+    // <----------------------- handle sort -------------------->
+    _this.handleSortComment = function (type) {
+      fetch(app.forum.attribute('apiUrl') + "/wiki/post/" + _this.postData.slug + "?sort=" + type, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        var _response$data, _response$data2;
+        console.log(response);
+        console.log("firssssst", data);
+        _this.postData = response == null || (_response$data = response.data) == null ? void 0 : _response$data.post;
+        _this.commentList = response == null || (_response$data2 = response.data) == null ? void 0 : _response$data2.comment;
+        m.redraw();
+      });
+    };
+    return _this;
+  }
+  var _proto = wikipost.prototype;
+  // Loading state
+  _proto.oninit = function oninit(vnode) {
+    var _this2 = this;
+    _Page.prototype.oninit.call(this, vnode);
+    this.isLoading = true; // Set loading to true when starting API call
+
+    // <========== post title view ===================>
+    this.postData = null;
+    this.commentList = [];
+    this.isPostLike = false;
+    // <========== post title view ===================>
+
+    fetch(this.url + "/wiki/post", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      _this2.data = data.data;
+      _this2.permission = data.permissions;
+      var isdata = data.data.filter(function (val) {
+        var _val$post;
+        return ((_val$post = val.post) == null ? void 0 : _val$post.length) > 0;
+      });
+      if ((isdata == null ? void 0 : isdata.length) > 0) {
+        var first_slug = isdata[0].post[0].slug;
+        _this2.selectedCategoryIndex = first_slug;
+        _this2.handlePostShow(first_slug);
+      }
+      _this2.isLoading = false; // Set loading to false once data is received
+
+      // this.categoryList = data.data.category;
+      m.redraw();
+    });
+  };
+  _proto.onPostEdit = function onPostEdit() {
+    app.modal.show(_EditWikiModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      postId: this.postData
+    });
+  };
+  _proto.onPostLike = function onPostLike() {
+    this.postData.like = !this.postData.like;
+    this.postData.totalLike = this.postData.like ? Number(this.postData.totalLike) + 1 : Number(this.postData.totalLike) - 1;
+    fetch(app.forum.attribute('apiUrl') + "/wiki/post/like/" + this.postData.id, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (response) {});
+  };
+  _proto.onPostComment = function onPostComment() {
+    var _this3 = this;
+    var updatePostComment = function updatePostComment(newComment) {
+      if (!!newComment.length) {
+        _this3.commentList = [].concat(_this3.commentList, [newComment[0]]);
+      }
+    };
+    app.modal.show(_CommentReplyModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      postId: this.postData.id,
+      commentFor: true,
+      updatePostComment: updatePostComment
+    });
+  };
+  _proto.onCommentReply = function onCommentReply(commentId, index) {
+    var _this4 = this;
+    var updateCommentReply = function updateCommentReply(newReply) {
+      _this4.commentList[index].replies = [].concat(_this4.commentList[index].replies, [newReply]);
+    };
+    app.modal.show(_CommentReplyModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      postId: this.postData.id,
+      commentFor: false,
+      commentId: commentId,
+      updateCommentReply: updateCommentReply,
+      commentIndex: index
+    });
+  }
+  //  <----------- post view title functions --------------->
+
+  // <--------- Post Comment and reply edit  and delete functions ---------------->
+  ;
+  _proto.handleCommentEdit = function handleCommentEdit(data, index) {
+    var _this5 = this;
+    var updatePostComment = function updatePostComment(newComment) {
+      var copyCommentArray = _this5.commentList;
+      copyCommentArray.splice.apply(copyCommentArray, [index, 1].concat(newComment));
+      _this5.commentList = copyCommentArray;
+
+      // this.commentList = [...this.commentList, newComment];
+    };
+
+    app.modal.show(_CommentReplyEditModal__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      postId: data,
+      commentFor: true,
+      updatePostComment: updatePostComment
+    });
+  };
+  _proto.handleReplyEdit = function handleReplyEdit(data, index, repIndex) {
+    var _this6 = this;
+    var updateCommentReply = function updateCommentReply(newComment) {
+      var _this6$commentList$in;
+      (_this6$commentList$in = _this6.commentList[index].replies).splice.apply(_this6$commentList$in, [repIndex, 1].concat(newComment));
+    };
+    app.modal.show(_CommentReplyEditModal__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      postId: data,
+      commentFor: false,
+      updateCommentReply: updateCommentReply
+    });
+  };
+  _proto.handleReplyDelete = function handleReplyDelete(id, index, repIndex) {
+    var _this7 = this;
+    sweetalert__WEBPACK_IMPORTED_MODULE_5___default()({
+      title: 'Are you sure, you want to delete?',
+      icon: 'warning',
+      dangerMode: true,
+      buttons: ['Cancel', 'OK']
+    }).then( /*#__PURE__*/function () {
+      var _ref4 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4(willDelete) {
+        var csrfToken;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              if (!willDelete) {
+                _context4.next = 8;
+                break;
+              }
+              console.log(_this7.commentList[index].replies);
+              _this7.commentList[index].replies.splice(repIndex, 1);
+              m.redraw();
+              _context4.next = 6;
+              return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
+            case 6:
+              csrfToken = _context4.sent;
+              fetch(app.forum.attribute('apiUrl') + "/wikireplycomment/" + id, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-Token': csrfToken
+                }
+              }).then(function (response) {
+                return response.json();
+              }).then(function (response) {
+                sweetalert__WEBPACK_IMPORTED_MODULE_5___default()('deleted successfully');
+              });
+            case 8:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
+      }));
+      return function (_x3) {
+        return _ref4.apply(this, arguments);
+      };
+    }());
+  };
+  _proto.handleReplyLike = function handleReplyLike(id, index, repIndex, user_reaction) {
+    var comment = this.commentList[index].replies[repIndex];
+    if (!comment) return; // Exit if comment doesn't exist
+
+    // Handling "like" action
+    if (user_reaction === "like") {
+      switch (comment.user_reaction) {
+        case "like":
+          comment.likes_relation_count -= 1;
+          comment.user_reaction = null;
+          comment.like = false;
+          break;
+        case "dislike":
+          comment.likes_relation_count += 1;
+          comment.dislikes_relation_count -= 1;
+          comment.user_reaction = "like";
+          comment.like = true;
+          break;
+        default:
+          comment.likes_relation_count += 1;
+          comment.user_reaction = "like";
+          comment.like = true;
+      }
+    }
+    // Handling "dislike" action
+    else if (user_reaction === "dislike") {
+      switch (comment.user_reaction) {
+        case "dislike":
+          comment.dislikes_relation_count -= 1;
+          comment.user_reaction = null;
+          comment.like = false;
+          break;
+        case "like":
+          comment.likes_relation_count -= 1;
+          comment.dislikes_relation_count += 1;
+          comment.user_reaction = "dislike";
+          comment.like = true;
+          break;
+        default:
+          comment.dislikes_relation_count += 1;
+          comment.user_reaction = "dislike";
+          comment.like = true;
+      }
+    }
+    fetch(app.forum.attribute('apiUrl') + "/wiki/replycomment/like/" + id + "?type=" + user_reaction, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (response) {});
+  };
+  // sorry but i can not my changs
+  // i am cheked ctrl f5
+  // <----------------------- handle sort -------------------->
+  _proto.view = function view() {
+    var _this$postData,
+      _this$postData2,
+      _this$postData$user,
+      _this$postData$user2,
+      _this8 = this,
+      _this$postData$totalL,
+      _this$postData3,
+      _this$commentList,
+      _this$commentList2,
+      _this$commentList3;
+    return m("div", {
+      "class": "container wiki"
+    }, this.isLoading && m("div", {
+      "class": "parent_loader"
+    }, " ", m("div", {
+      "class": "loader"
+    })), m("div", {
+      "class": "wiki-container "
+    }, m("div", {
       "class": "wiki-right"
     }, m("div", {
       "class": "wiki-post-container"
@@ -13409,259 +12727,6 @@ var wiki = /*#__PURE__*/function (_Page) {
   _proto.showAddWikiModal = function showAddWikiModal() {
     app.modal.show(_AddWikiModal__WEBPACK_IMPORTED_MODULE_9__["default"]);
   };
-  return wiki;
-}((flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default()));
-
-
-/***/ }),
-
-/***/ "./src/forum/components/wikipost.js":
-/*!******************************************!*\
-  !*** ./src/forum/components/wikipost.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ wikipost)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_components_Page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/components/Page */ "flarum/components/Page");
-/* harmony import */ var flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Page__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _AddWikiModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AddWikiModal */ "./src/forum/components/AddWikiModal.js");
-/* harmony import */ var _CommentReplyModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CommentReplyModal */ "./src/forum/components/CommentReplyModal.js");
-/* harmony import */ var _CsrfToken__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./CsrfToken */ "./src/forum/components/CsrfToken.js");
-/* harmony import */ var _EditWikiModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./EditWikiModal */ "./src/forum/components/EditWikiModal.js");
-
-
-
-
-
-
-
-
-
-var wikipost = /*#__PURE__*/function (_Page) {
-  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(wikipost, _Page);
-  function wikipost() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Page.call.apply(_Page, [this].concat(args)) || this;
-    _this.onPostDelete = /*#__PURE__*/(0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
-          case 0:
-            sweetalert__WEBPACK_IMPORTED_MODULE_4___default()({
-              title: 'Are you sure, you want to delete?',
-              icon: 'warning',
-              dangerMode: true,
-              buttons: ['Cancel', 'OK']
-            }).then( /*#__PURE__*/function () {
-              var _ref2 = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(willDelete) {
-                var csrfToken;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
-                  while (1) switch (_context.prev = _context.next) {
-                    case 0:
-                      if (!willDelete) {
-                        _context.next = 5;
-                        break;
-                      }
-                      _context.next = 3;
-                      return (0,_CsrfToken__WEBPACK_IMPORTED_MODULE_7__.fetchCsrfToken)();
-                    case 3:
-                      csrfToken = _context.sent;
-                      fetch(app.forum.attribute('apiUrl') + "/wiki/post/" + _this.postData.id, {
-                        method: 'DELETE',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'X-CSRF-Token': csrfToken
-                        }
-                      }).then(function (response) {
-                        return response.json();
-                      }).then(function (response) {
-                        sweetalert__WEBPACK_IMPORTED_MODULE_4___default()('deleted successfully');
-                        window.history.back();
-                      });
-                    case 5:
-                    case "end":
-                      return _context.stop();
-                  }
-                }, _callee);
-              }));
-              return function (_x) {
-                return _ref2.apply(this, arguments);
-              };
-            }());
-          case 1:
-          case "end":
-            return _context2.stop();
-        }
-      }, _callee2);
-    }));
-    _this.onCommentLike = function (id, index) {
-      _this.commentList[index].like = !_this.commentList[index].like;
-      _this.commentList[index].likes_relation_count = _this.commentList[index].like ? Number(_this.commentList[index].likes_relation_count) + 1 : Number(_this.commentList[index].likes_relation_count) - 1;
-      fetch(app.forum.attribute('apiUrl') + "/wiki/comment/like/" + id, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (response) {});
-    };
-    return _this;
-  }
-  var _proto = wikipost.prototype;
-  _proto.oninit = function oninit(vnode) {
-    var _this2 = this;
-    _Page.prototype.oninit.call(this, vnode);
-    this.slug = m.route.param('slug');
-    this.postData = null;
-    this.commentList = [];
-    this.isPostLike = false;
-    var urls = app.forum.attribute('apiUrl');
-    // Fetch the post data using AJAX or another method
-    m.request({
-      method: 'GET',
-      url: urls + "/wiki/post/" + this.slug // adjust this to your actual API endpoint
-    }).then(function (data) {
-      var _data$data, _data$data2;
-      _this2.postData = data == null || (_data$data = data.data) == null ? void 0 : _data$data.post;
-      _this2.commentList = data == null || (_data$data2 = data.data) == null ? void 0 : _data$data2.comment;
-      m.redraw(); // Ensure Mithril re-renders the view with the fetched data.
-    });
-  };
-  _proto.onPostEdit = function onPostEdit() {
-    app.modal.show(_EditWikiModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      postId: this.postData
-    });
-  };
-  _proto.onPostLike = function onPostLike() {
-    this.postData.like = !this.postData.like;
-    this.postData.totalLike = this.postData.like ? Number(this.postData.totalLike) + 1 : Number(this.postData.totalLike) - 1;
-    fetch(app.forum.attribute('apiUrl') + "/wiki/post/like/" + this.postData.id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (response) {});
-  };
-  _proto.onPostComment = function onPostComment() {
-    var _this3 = this;
-    var updatePostComment = function updatePostComment(newComment) {
-      _this3.commentList = [].concat(_this3.commentList, [newComment]);
-    };
-    app.modal.show(_CommentReplyModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postId: this.postData.id,
-      commentFor: true,
-      updatePostComment: updatePostComment
-    });
-  };
-  _proto.onCommentReply = function onCommentReply(commentId, index) {
-    var _this4 = this;
-    var updateCommentReply = function updateCommentReply(newReply) {
-      // let copyArr=[...this.commentList]
-
-      // copyArr[index].replies=[...copyArr[index].replies,newReply]
-      _this4.commentList[index].replies = [].concat(_this4.commentList[index].replies, [newReply]);
-    };
-    app.modal.show(_CommentReplyModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postId: this.postData.id,
-      commentFor: false,
-      commentId: commentId,
-      updateCommentReply: updateCommentReply,
-      commentIndex: index
-    });
-  };
-  _proto.view = function view() {
-    var _this$postData,
-      _this$postData2,
-      _this5 = this,
-      _this$postData$totalL,
-      _this$postData3;
-    if (!this.postData) return m('center', 'Loading...');
-    return m('.WikiPostPage.container', [m('div.user-wiki-post', [m('.user_name_main', [(_this$postData = this.postData) != null && (_this$postData = _this$postData.user) != null && _this$postData.avatar_url ? m('img.Avatar', {
-      loading: "lazy",
-      src: "" + ((_this$postData2 = this.postData) == null || (_this$postData2 = _this$postData2.user) == null ? void 0 : _this$postData2.avatar_url),
-      alt: ""
-    }) : m('span.Avatar.wiki-avatar', {
-      loading: 'lazy',
-      style: '--avatar-bg: #e5cca0;'
-    }, "" + this.postData.user.username.slice(0, 1)), m('span.username', "" + this.postData.user.username), app.session.user && m('span.actions', [m('div.wiki-postList-header--icon', [m('i.icon.fas.fa-pencil-alt.Button-icon', {
-      'aria-hidden': 'true',
-      title: 'Edit',
-      onclick: function onclick() {
-        return _this5.onPostEdit();
-      }
-    }), m('i.icon.fas.fa-trash-alt.Button-icon', {
-      'aria-hidden': 'true',
-      title: 'Edit',
-      onclick: function onclick() {
-        return _this5.onPostDelete();
-      }
-    })])])])]), m('.wiki-post-body', [m('.wiki-mainPost-container', [m('div.wiki-specific-postList-header--text', m('h3', this.postData.title)), m('.wiki-mainPost--text', m.trust(this.postData.content)), app.session.user && m('.wiki-mainPost--tools', [m('.wiki-mainPost--tools---like', {
-      title: 'Like',
-      onclick: function onclick() {
-        return _this5.onPostLike();
-      }
-    }, [m('i.icon.far.fa-thumbs-up.Button-icon', {
-      'aria-hidden': 'true',
-      "class": this.postData.like ? 'like-true' : 'like-false'
-    }), m('span', (_this$postData$totalL = (_this$postData3 = this.postData) == null ? void 0 : _this$postData3.totalLike) != null ? _this$postData$totalL : '')]), m('.wiki-mainPost--tools---comment', {
-      title: 'Comment',
-      onclick: function onclick() {
-        return _this5.onPostComment();
-      }
-    }, [m('i.icon.far.fa-comment.Button-icon', {
-      'aria-hidden': 'true'
-    }), m('span', "" + this.commentList.length)])])]), m('p.grey-text', 'Comments'), m('.wiki-post-commentList', this.commentList && this.commentList.length ? this.commentList.map(function (v, index) {
-      var _v$user, _v$user2, _v$likes_relation_cou;
-      return m('.wiki-post-comment-box', [m('.user_name_wiki_comment', [v != null && (_v$user = v.user) != null && _v$user.avatar_url ? m('img.Avatar', {
-        loading: "lazy",
-        src: "" + (v == null || (_v$user2 = v.user) == null ? void 0 : _v$user2.avatar_url),
-        alt: ""
-      }) : m('span.Avatar.wiki-avatar', {
-        loading: "lazy",
-        style: "--avatar-bg: #e5cca0;"
-      }, "" + (v == null ? void 0 : v.user.username.slice(0, 1))), m('span.username', "" + (v == null ? void 0 : v.user.username))]), m('.wiki-mainPost--text', m.trust(v.content)), app.session.user && m('.wiki-mainPost--tools', [m('.wiki-mainPost--tools---like', {
-        title: 'Like',
-        onclick: function onclick() {
-          return _this5.onCommentLike(v.id, index);
-        }
-      }, [m('i.icon.far.fa-thumbs-up.Button-icon', {
-        'aria-hidden': 'true',
-        "class": v.like ? 'like-true' : 'like-false'
-      }), m('span', "" + ((_v$likes_relation_cou = v.likes_relation_count) != null ? _v$likes_relation_cou : '0'))]), m('.wiki-mainPost--tools---comment', {
-        title: 'Reply',
-        onclick: function onclick() {
-          return _this5.onCommentReply(v.id, index);
-        }
-      }, [m('i.icon.far.fa-comment.Button-icon', {
-        'aria-hidden': 'true'
-      }), m('span', "" + v.replies.length)])]), v.replies.length > 0 && m('.wiki-comment-replyList', [m('p.grey-text', 'Reply'), v.replies.length > 0 && v.replies.map(function (repObj, reo) {
-        var _repObj$user, _repObj$user2, _repObj$user3;
-        return m('.wiki-comment-reply-box', [m('.user_name_main', [repObj != null && (_repObj$user = repObj.user) != null && _repObj$user.avatar_url ? m('img.Avatar', {
-          loading: "lazy",
-          src: "" + (repObj == null || (_repObj$user2 = repObj.user) == null ? void 0 : _repObj$user2.avatar_url),
-          alt: ""
-        }) : m('span.Avatar', {
-          loading: "lazy",
-          style: "--avatar-bg: #e5cca0;"
-        }, "" + (repObj == null ? void 0 : repObj.user.username.slice(0, 1))), m('span.username', repObj == null || (_repObj$user3 = repObj.user) == null ? void 0 : _repObj$user3.username)]), m('.wiki-comment-reply-box-text', m.trust(repObj.content))]);
-      })])]);
-    }) : '')])]);
-  };
   return wikipost;
 }((flarum_components_Page__WEBPACK_IMPORTED_MODULE_3___default()));
 
@@ -13680,23 +12745,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_CustomModalForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/CustomModalForm */ "./src/forum/components/CustomModalForm.js");
 /* harmony import */ var _components_ForgotPasswordModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ForgotPasswordModal */ "./src/forum/components/ForgotPasswordModal.js");
-/* harmony import */ var _components_PointsNav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PointsNav */ "./src/forum/components/PointsNav.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_ChangePassword_sid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ChangePassword_sid */ "./src/forum/components/ChangePassword_sid.js");
-/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
-/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! flarum/forum/components/SignUpModal */ "flarum/forum/components/SignUpModal");
-/* harmony import */ var flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _components_AddCollection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/AddCollection */ "./src/forum/components/AddCollection.js");
-/* harmony import */ var _components_Collect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Collect */ "./src/forum/components/Collect.js");
-/* harmony import */ var _components_discussion__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/discussion */ "./src/forum/components/discussion.js");
-/* harmony import */ var _components_wiki__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/wiki */ "./src/forum/components/wiki.js");
-/* harmony import */ var _components_wikipost__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/wikipost */ "./src/forum/components/wikipost.js");
-/* harmony import */ var flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! flarum/forum/components/HeaderPrimary */ "flarum/forum/components/HeaderPrimary");
-/* harmony import */ var flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! flarum/common/components/LinkButton */ "flarum/common/components/LinkButton");
-/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_ChangePassword_sid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/ChangePassword_sid */ "./src/forum/components/ChangePassword_sid.js");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/forum/components/SignUpModal */ "flarum/forum/components/SignUpModal");
+/* harmony import */ var flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_AddCollection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/AddCollection */ "./src/forum/components/AddCollection.js");
+/* harmony import */ var _components_Collect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Collect */ "./src/forum/components/Collect.js");
+/* harmony import */ var _components_wiki__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/wiki */ "./src/forum/components/wiki.js");
+/* harmony import */ var _components_wikipost__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/wikipost */ "./src/forum/components/wikipost.js");
+/* harmony import */ var flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! flarum/forum/components/HeaderPrimary */ "flarum/forum/components/HeaderPrimary");
+/* harmony import */ var flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! flarum/common/components/LinkButton */ "flarum/common/components/LinkButton");
+/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_12__);
 function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
@@ -13713,36 +12776,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-
-
-// import DiscussionPageList from './components/DiscussionPageList';
-
 var isFormDisplayed = false;
 var myForm;
 var loveUpButton;
-flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('sidtechno/customlogin', function () {
+flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('sidtechno-customlogin', function () {
   (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().routes).wiki = {
     path: '/wiki',
-    component: _components_wiki__WEBPACK_IMPORTED_MODULE_11__["default"]
+    component: _components_wiki__WEBPACK_IMPORTED_MODULE_9__["default"]
   };
   (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().routes).wikiPost = {
     path: '/wiki/post/:slug',
-    component: _components_wikipost__WEBPACK_IMPORTED_MODULE_12__["default"]
+    component: _components_wikipost__WEBPACK_IMPORTED_MODULE_10__["default"]
   };
-
-  // app.routes.Post = {path: '/post/:slug', component: discussion};
-  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().routes).Post = {
-    path: '/post/:slug',
-    component: _components_discussion__WEBPACK_IMPORTED_MODULE_10__["default"]
-  };
-  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().routes)['sidtechno-customlogin-post'] = {
-    path: '/post/:slug/:id?',
-    component: _components_discussion__WEBPACK_IMPORTED_MODULE_10__["default"]
-  };
-  (0,_components_Collect__WEBPACK_IMPORTED_MODULE_9__["default"])();
-  // DiscussionPageList()
-  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_6__.extend)((flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_13___default().prototype), 'items', function (items) {
-    items.add('wiki', m((flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_14___default()), {
+  (0,_components_Collect__WEBPACK_IMPORTED_MODULE_8__["default"])();
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_5__.extend)((flarum_forum_components_HeaderPrimary__WEBPACK_IMPORTED_MODULE_11___default().prototype), 'items', function (items) {
+    items.add('wiki', m((flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_12___default()), {
       "class": "wiki-btn",
       href: flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().route('wiki')
     }, "Wiki"));
@@ -13771,7 +12819,7 @@ flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('sidtec
           if (api_response != null && api_response.errors) {
             var _api_response$errors$;
             var msg = api_response == null || (_api_response$errors$ = api_response.errors[0]) == null ? void 0 : _api_response$errors$.detail;
-            sweetalert__WEBPACK_IMPORTED_MODULE_4___default()({
+            sweetalert__WEBPACK_IMPORTED_MODULE_3___default()({
               text: msg,
               icon: 'error',
               dangerMode: true,
@@ -13790,8 +12838,7 @@ flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('sidtec
   // <================= Getting response of  api which is calling on other pages [END] ==========>
 
   $(document).ready(function () {
-    (0,_components_PointsNav__WEBPACK_IMPORTED_MODULE_3__.PointsNavProfile)();
-    (0,_components_ChangePassword_sid__WEBPACK_IMPORTED_MODULE_5__.ChangPasswordSidBtn)();
+    (0,_components_ChangePassword_sid__WEBPACK_IMPORTED_MODULE_4__.ChangPasswordSidBtn)();
     // Select the first div inside the body
     var firstDiv = $('body > div:first-child')[0];
 
@@ -13802,8 +12849,7 @@ flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('sidtec
       for (var _iterator = _createForOfIteratorHelperLoose(mutationsList), _step; !(_step = _iterator()).done;) {
         var mutation = _step.value;
         if (mutation.type === 'childList' && $(mutation.target).find('.UserPage').length > 0) {
-          (0,_components_PointsNav__WEBPACK_IMPORTED_MODULE_3__.PointsNavProfile)();
-          (0,_components_ChangePassword_sid__WEBPACK_IMPORTED_MODULE_5__.ChangPasswordSidBtn)();
+          (0,_components_ChangePassword_sid__WEBPACK_IMPORTED_MODULE_4__.ChangPasswordSidBtn)();
           break;
         }
       }
@@ -13837,7 +12883,7 @@ function signup_security_question() {
     questionSelect.style.width = '100%';
     questionSelect.style.marginBottom = '10px';
     questionSelect.style.color = 'rgb(102 124 153)';
-    (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_6__.extend)((flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_7___default().prototype), 'submitData', function (data) {
+    (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_5__.extend)((flarum_forum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_6___default().prototype), 'submitData', function (data) {
       var newData = data;
       var questionsData = $('.SignUpModal .Form .signup-question')[0];
       newData['email'] = newData['username'] ? newData['username'] + "@sidtechno.com" : "";
@@ -14081,17 +13127,6 @@ module.exports = flarum.core.compat['components/Dropdown'];
 
 "use strict";
 module.exports = flarum.core.compat['components/Page'];
-
-/***/ }),
-
-/***/ "flarum/components/TextEditor":
-/*!**************************************************************!*\
-  !*** external "flarum.core.compat['components/TextEditor']" ***!
-  \**************************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = flarum.core.compat['components/TextEditor'];
 
 /***/ }),
 
