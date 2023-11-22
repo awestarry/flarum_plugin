@@ -40,11 +40,11 @@ class SidValidationRules
         $username = $event->data['attributes'];
 
         $validators = $this->validatorFactory->make($username, [
-            'username' => 'required|unique:users'
+            'username' => 'required|unique:users|min:3|max:20|regex:/^[a-zA-Z0-9_]+$/'
         ]);
 
         if ($validators->fails()) {
-            throw new ValidationException(['errors' => $validators->errors()->first()]);
+          return false;
         }
 
         $validator = $this->validatorFactory->make($event->data['attributes'], $customRules);

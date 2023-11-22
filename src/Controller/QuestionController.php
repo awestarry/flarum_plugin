@@ -38,6 +38,7 @@ class QuestionController implements RequestHandlerInterface
             $question->user_id = $actor->id;
             $question->question = $data['question_' . $i];
             $question->answer = $data['answer_' . $i];
+            $question->user_name = $actor->username;
             $question->save();
         }
 
