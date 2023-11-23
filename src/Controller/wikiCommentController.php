@@ -9,9 +9,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Illuminate\Support\Arr;
 use Sidtechno\Customlogin\Model\WikiComment;
 use Sidtechno\Customlogin\Model\WikiCommentLike;
-use Sidtechno\Customlogin\Model\PointRule;
-use Sidtechno\Customlogin\Model\Points;
-use Sidtechno\Customlogin\Model\UserPoint;
 use Sidtechno\Customlogin\Model\WikiReplyCommentLike;
 
 
@@ -102,7 +99,6 @@ class wikiCommentController implements RequestHandlerInterface
                  $reply->can_delete = $reply->can_edit;
             }
         });
-        $this->when_comment($comment);
 
        return new JsonResponse(['message' => true, 'data' => $data], 200);
     }
@@ -176,28 +172,4 @@ class wikiCommentController implements RequestHandlerInterface
         return new JsonResponse(['message' => true, 'data' => 'Comment deleted successfully.'], 200);
     }
 
-    public function when_comment($event)
-    {
-        $condition = 'Comment_posted';
-        $data = PointRule::where('condition','Comment_posted')->first();
-        Points::create([
-            'user_id' => $event->user_id,
-            'condition' => $condition,
-            'points' =>  $data->score ? : 2,
-            'post_id' => $event->id,
-            'discussion_id' =>  $event->post_id,
-            'wiki' => 1
-        ]);
-        $user = UserPoint::where('user_id', $event->user_id)->first();
-
-        if (!$user) {
-            $user = new UserPoint();
-            $user->user_id = $event->user_id;
-            $user->current_point = 0;
-        }
-
-        $user->current_point += $data->score;
-        $user->save();
-
-    }
 }

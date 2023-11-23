@@ -9,9 +9,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Carbon\Carbon;
 use Sidtechno\Customlogin\Model\Collection;
 use Flarum\Discussion\Discussion;
-use Sidtechno\Customlogin\Model\Points;
-use Sidtechno\Customlogin\Model\UserPoint;
-use Sidtechno\Customlogin\Model\PointRule;
 class AddCollection implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -43,35 +40,10 @@ class AddCollection implements RequestHandlerInterface
             $collection->slug = $discussion_id.'-'.$discussion->slug;
             $collection->save();
 
-            $todayCollectionsCount = Collection::where('user_id', $user_id)
-            ->whereDate('created_at', Carbon::now()->toDateString())
-            ->count();
-
-                if ($todayCollectionsCount <= 10) {
-                    $data = PointRule::where('condition', 'collected_article')->first();
-                    if(isset($data)) {
-                        Points::create([
-                            'user_id' => $user_id,
-                            'condition' => $data->condition,
-                            'points' =>  $data->score,
-                            'discussion_id' =>  $discussion_id,
-                        ]);
-                        $this->updateUserPoints($user_id, $data->score);
-                    }
-                }
             return new JsonResponse(['status' => true, 'data' => 'Added successful in your collection.'], 200);
         } catch (\Exception $e) {
             return new JsonResponse(['status' => false, 'error' => 'Failed to add to collection.'], 500);
         }
     }
-    public function updateUserPoints($id,$score){
-        $user = UserPoint::where('user_id', $id)->first();
-        if (empty($user)) {
-            $user = new UserPoint();
-            $user->user_id = $id;
-            $user->current_point = 0;  // Initialize points to 0
-        }
-        $user->current_point += $score; // Increment the points
-        $user->save();
-    }
+
 }
