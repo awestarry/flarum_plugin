@@ -61,11 +61,6 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "autoload-dev": {
-        "psr-4": {
-            "Sidtechno\\Customlogin\\Tests\\": "tests/"
-        }
-    },
     "scripts": {
         "test": [
             "@test:unit",
@@ -84,5 +79,10 @@
     "require-dev": {
           "flarum/phpstan": "^1.8",
         "flarum/testing": "^1.0.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sidtechno\\Customlogin\\Tests\\": "tests/"
+        }
     }
 }
