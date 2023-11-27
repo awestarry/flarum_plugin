@@ -12,9 +12,6 @@
         "tobscure/json-api": "^0.3.0",
         "laminas/laminas-diactoros": "^2.25"
     },
-     "replace": {
-        "sidtechno/customlogin": "*"
-    },
     "authors": [
         {
             "name": "Sidtechno",
