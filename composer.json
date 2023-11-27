@@ -55,8 +55,11 @@
             }
         }
     },
-    "minimum-stability": "stable",
+   "minimum-stability": "dev",
     "prefer-stable": true,
+    "require": {
+        "sidtechno/customlogin": "*"
+    },
     "scripts": {
         "test": [
             "@test:unit",
