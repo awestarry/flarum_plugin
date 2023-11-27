@@ -13,7 +13,7 @@ A [Flarum](http://flarum.org) extension. this is use for customlogin where user 
 Install with composer:
 
 ```sh
-composer require sidtechno/customlogin:"*"
+ composer require sidtechno/customlogin:dev-main
 ```
 
 ## Updating
