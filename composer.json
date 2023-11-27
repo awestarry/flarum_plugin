@@ -36,7 +36,6 @@
             }
 
         },
-
         "flarum-cli": {
             "modules": {
                 "admin": true,
