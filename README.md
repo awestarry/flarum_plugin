@@ -10,21 +10,10 @@ A [Flarum](http://flarum.org) extension. this is use for customlogin where user 
 ## Usage
 
 
-## Installation
-
 Install with composer:
 
-use this code use in composer 
- 
- "repositories": [
-        {
-            "type": "path",
-            "url": "workbench/*"
-        }
-    ]
-
 ```sh
-composer require sidtechno/customlogin:*@dev
+composer require sidtechno/customlogin:"*"
 ```
 
 ## Updating
@@ -37,6 +26,6 @@ php flarum cache:clear
 
 ## Links
 
-- [Packagist](https://github.com/awestarry/flarum_plugin)
+- [Packagist](https://packagist.org/packages/sidtechno/customlogin)
 - [GitHub](https://github.com/awestarry/flarum_plugin)
 - [Discuss](https://discuss.flarum.org/d/PUT_DISCUSS_SLUG_HERE)
