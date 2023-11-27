@@ -14,7 +14,6 @@ return [
             $table->text('content');
             $table->foreign('post_id')->references('id')->on('wiki_articles')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('parent_id')->references('id')->on('wiki_comments')->onDelete('cascade');
             $table->timestamps();
             });
         }
