@@ -7,7 +7,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use Sidtechno\Customlogin\Model\SidLike;
-use Sidtechno\Customlogin\Model\UserPoint;
 
 
 class SidReplylikeController implements RequestHandlerInterface
